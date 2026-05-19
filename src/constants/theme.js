@@ -1,0 +1,23 @@
+export const C = {
+    bg: "#070D19",
+    bgNav: "#090F1E",
+    card: "#0D1729",
+    cardAlt: "#111E34",
+    border: "rgba(255,255,255,0.055)",
+    borderMid: "rgba(255,255,255,0.10)",
+    teal: "#2BB0E6",
+    tealDim: "rgba(43,176,230,0.10)",
+    indigo: "#5A4FCF",
+    indigoDim: "rgba(90,79,207,0.11)",
+    green: "#27C99A",
+    greenDim: "rgba(39,201,154,0.10)",
+    red: "#F0506A",
+    redDim: "rgba(240,80,106,0.10)",
+    yellow: "#F0C040",
+    yellowDim: "rgba(240,192,64,0.10)",
+    orange: "#F07B3C",
+    textPri: "#E4EDFF",
+    textSec: "#96AFCC",
+    textTer: "#587090",
+};
+export const F = `'Afacad','Inter',system-ui,sans-serif`;
