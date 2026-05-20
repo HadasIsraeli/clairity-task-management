@@ -11,12 +11,17 @@ export default function ClairityApp() {
     const [view, setView] = useState('dashboard');
     const [chatOpen, setChatOpen] = useState(false);
     const [collapsed, setCollapsed] = useState(false);
-    const [msgs, setMsgs] = useState([{ role: 'assistant', content: "Hi Alon 👋 I'm Clairity, your sprint intelligence advisor. I've already reviewed Sprint 24 and I'm seeing two tasks that could use your attention before the week is out. Want to start there, or is there something else on your mind?" }]);
+    const [msgs, setMsgs] = useState([
+        {
+            role: 'assistant',
+            content: "Hi Alon 👋 I'm Clairity, your sprint intelligence advisor. I've already reviewed Sprint 24 and I'm seeing two tasks that could use your attention before the week is out. Want to start there, or is there something else on your mind?",
+        },
+    ]);
 
     const activeTask = view === 'inProgress' ? TASKS.inProgress : TASKS.todo;
 
     return (
-        <div style={{ height: '100vh', background: C.bg, color: C.textPri, fontFamily: F, display: 'flex', overflow: 'hidden' }}>
+        <div className="app-shell" style={{ background: C.bg, color: C.textPri, fontFamily: F }}>
             <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Afacad:wght@400;500;600;700&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -31,30 +36,66 @@ export default function ClairityApp() {
 
             <Sidebar view={view} setView={setView} collapsed={collapsed} setCollapsed={setCollapsed} />
 
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
-                <div style={{ height: 48, borderBottom: `1px solid ${C.border}`, display: 'flex', alignItems: 'center', padding: '0 22px', gap: 8, flexShrink: 0, background: C.bgNav }}>
-                    <span style={{ fontSize: 13, fontWeight: 700, color: C.textPri }}>{view === 'dashboard' ? 'Dashboard' : view === 'inProgress' ? 'TM-112' : 'TM-119'}</span>
-                    <i className="ti ti-chevron-right" style={{ fontSize: 11, color: C.textTer }} aria-hidden="true" />
-                    <span style={{ fontSize: 13, color: C.textTer, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{view === 'dashboard' ? SPRINT.name : activeTask.title}</span>
-                    <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div className="app-column app-main">
+                <div className="app-toolbar">
+                    <div className="page-header">
+                        <span style={{ fontSize: 13, fontWeight: 700, color: C.textPri }}>
+                            {view === 'dashboard' ? 'Dashboard' : view === 'inProgress' ? 'TM-112' : 'TM-119'}
+                        </span>
+                        <i className="ti ti-chevron-right" style={{ fontSize: 11, color: C.textTer }} aria-hidden="true" />
+                        <span className="page-header__trail">{view === 'dashboard' ? SPRINT.name : activeTask.title}</span>
+                    </div>
+                    <div className="page-meta">
                         <Pill label={`${SPRINT.daysLeft}d left`} color={C.yellow} small />
                         <Pill label={`${SPRINT.atRisk} at risk`} color={C.red} small />
                     </div>
                 </div>
 
-                <div style={{ flex: 1, overflowY: 'auto', padding: '24px 22px' }}>
+                <main className="app-content">
                     {view === 'dashboard' && <Dashboard onOpen={(taskKey) => setView(taskKey)} />}
                     {view === 'inProgress' && <TaskView taskKey="inProgress" onBack={() => setView('dashboard')} />}
                     {view === 'todo' && <TaskView taskKey="todo" onBack={() => setView('dashboard')} />}
-                </div>
+                </main>
             </div>
 
             <ChatPanel open={chatOpen} onClose={() => setChatOpen(false)} msgs={msgs} setMsgs={setMsgs} />
 
             {!chatOpen && (
-                <button onClick={() => setChatOpen(true)} title="Chat with Clairity" style={{ position: 'fixed', bottom: 22, right: 22, zIndex: 35, width: 54, height: 54, borderRadius: '50%', outline: 'none', background: `linear-gradient(135deg,${C.indigo},${C.teal})`, border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: `0 4px 18px ${C.indigo}55, 0 0 0 4px ${C.indigo}25`, transition: 'transform 0.2s, box-shadow 0.2s' }} onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.08)'; e.currentTarget.style.boxShadow = `0 6px 26px ${C.indigo}75, 0 0 0 6px ${C.indigo}35`; }} onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = `0 4px 18px ${C.indigo}55, 0 0 0 4px ${C.indigo}25`; }}>
+                <button
+                    onClick={() => setChatOpen(true)}
+                    title="Chat with Clairity"
+                    className="floating-action"
+                    style={{ background: `linear-gradient(135deg,${C.indigo},${C.teal})`, boxShadow: `0 4px 18px ${C.indigo}55, 0 0 0 4px ${C.indigo}25` }}
+                    onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'scale(1.08)';
+                        e.currentTarget.style.boxShadow = `0 6px 26px ${C.indigo}75, 0 0 0 6px ${C.indigo}35`;
+                    }}
+                    onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'scale(1)';
+                        e.currentTarget.style.boxShadow = `0 4px 18px ${C.indigo}55, 0 0 0 4px ${C.indigo}25`;
+                    }}
+                >
                     <i className="ti ti-sparkles" style={{ fontSize: 22, color: '#fff' }} aria-hidden="true" />
-                    <span style={{ position: 'absolute', top: -2, right: -2, width: 14, height: 14, borderRadius: '50%', background: C.red, border: `2px solid ${C.bg}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 8, color: '#fff', fontWeight: 700 }}>2</span>
+                    <span
+                        style={{
+                            position: 'absolute',
+                            top: -2,
+                            right: -2,
+                            width: 14,
+                            height: 14,
+                            borderRadius: '50%',
+                            background: C.red,
+                            border: `2px solid ${C.bg}`,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: 8,
+                            color: '#fff',
+                            fontWeight: 700,
+                        }}
+                    >
+                        2
+                    </span>
                 </button>
             )}
         </div>
