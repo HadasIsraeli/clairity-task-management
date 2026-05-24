@@ -1,5 +1,11 @@
-import ClairityApp from './features/ClairityApp.jsx';
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import AppRouter from './routes/AppRouter';
 
 export default function App() {
-  return <ClairityApp />;
+  return (
+    <BrowserRouter>
+      <AppRouter />
+    </BrowserRouter>
+  );
 }

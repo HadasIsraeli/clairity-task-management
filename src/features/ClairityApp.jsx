@@ -1,49 +1,53 @@
 import { useState } from 'react';
 import { C, F } from '../constants/theme';
 import { Sidebar } from '../components/Sidebar';
-import { Dashboard } from './Dashboard';
-import { TaskView } from './TaskView';
 import { ChatPanel } from './ChatPanel';
 import { Pill } from '../components/Pill';
-import { SPRINT, TASKS } from '../data/tasks';
+import { SPRINT, TASKS, ALL_TASKS } from '../data/tasks';
+import { Outlet, useLocation } from 'react-router-dom';
 
 export default function ClairityApp() {
-    const [view, setView] = useState('dashboard');
     const [chatOpen, setChatOpen] = useState(false);
     const [collapsed, setCollapsed] = useState(false);
     const [msgs, setMsgs] = useState([
         {
             role: 'assistant',
-            content: "Hi Alon 👋 I'm Clairity, your sprint intelligence advisor. I've already reviewed Sprint 24 and I'm seeing two tasks that could use your attention before the week is out. Want to start there, or is there something else on your mind?",
+            content:
+                "Hi Alon 👋 I'm Clairity, your sprint intelligence advisor. I've already reviewed Sprint 24 and I'm seeing two tasks that could use your attention before the week is out. Want to start there, or is there something else on your mind?",
         },
     ]);
 
-    const activeTask = view === 'inProgress' ? TASKS.inProgress : TASKS.todo;
+    const location = useLocation();
+    const path = location.pathname || '/';
+
+    let leftLabel = 'Dashboard';
+    let rightLabel = SPRINT.name;
+    if (path.startsWith('/task/')) {
+        const id = path.replace('/task/', '').split('/')[0];
+        leftLabel = id || 'Task';
+        if (id === TASKS.inProgress.id) rightLabel = TASKS.inProgress.title;
+        else if (id === TASKS.todo.id) rightLabel = TASKS.todo.title;
+        else {
+            const found = ALL_TASKS.find((t) => t.id === id);
+            if (found) rightLabel = found.title;
+        }
+    } else if (path === '/settings') {
+        leftLabel = 'Settings';
+        rightLabel = '';
+    }
 
     return (
-        <div className="app-shell" style={{ background: C.bg, color: C.textPri, fontFamily: F }}>
-            <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Afacad:wght@400;500;600;700&display=swap');
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        button, input { font-family: ${F}; }
-        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.07); border-radius: 2px; }
-        @keyframes blink { 0%,80%,100%{opacity:0.15} 40%{opacity:0.9} }
-      `}</style>
+        <div className="app-shell" style={{ color: C.textPri, fontFamily: F }}>
             <h2 className="sr-only">Clairity — AI sprint intelligence for engineering managers</h2>
 
-            <Sidebar view={view} setView={setView} collapsed={collapsed} setCollapsed={setCollapsed} />
+            <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
 
             <div className="app-column app-main">
                 <div className="app-toolbar">
                     <div className="page-header">
-                        <span style={{ fontSize: 13, fontWeight: 700, color: C.textPri }}>
-                            {view === 'dashboard' ? 'Dashboard' : view === 'inProgress' ? 'TM-112' : 'TM-119'}
-                        </span>
+                        <span style={{ fontSize: 13, fontWeight: 700, color: C.textPri }}>{leftLabel}</span>
                         <i className="ti ti-chevron-right" style={{ fontSize: 11, color: C.textTer }} aria-hidden="true" />
-                        <span className="page-header__trail">{view === 'dashboard' ? SPRINT.name : activeTask.title}</span>
+                        <span className="page-header__trail">{rightLabel}</span>
                     </div>
                     <div className="page-meta">
                         <Pill label={`${SPRINT.daysLeft}d left`} color={C.yellow} small />
@@ -52,9 +56,7 @@ export default function ClairityApp() {
                 </div>
 
                 <main className="app-content">
-                    {view === 'dashboard' && <Dashboard onOpen={(taskKey) => setView(taskKey)} />}
-                    {view === 'inProgress' && <TaskView taskKey="inProgress" onBack={() => setView('dashboard')} />}
-                    {view === 'todo' && <TaskView taskKey="todo" onBack={() => setView('dashboard')} />}
+                    <Outlet />
                 </main>
             </div>
 
@@ -66,14 +68,6 @@ export default function ClairityApp() {
                     title="Chat with Clairity"
                     className="floating-action"
                     style={{ background: `linear-gradient(135deg,${C.indigo},${C.teal})`, boxShadow: `0 4px 18px ${C.indigo}55, 0 0 0 4px ${C.indigo}25` }}
-                    onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = 'scale(1.08)';
-                        e.currentTarget.style.boxShadow = `0 6px 26px ${C.indigo}75, 0 0 0 6px ${C.indigo}35`;
-                    }}
-                    onMouseLeave={(e) => {
-                        e.currentTarget.style.transform = 'scale(1)';
-                        e.currentTarget.style.boxShadow = `0 4px 18px ${C.indigo}55, 0 0 0 4px ${C.indigo}25`;
-                    }}
                 >
                     <i className="ti ti-sparkles" style={{ fontSize: 22, color: '#fff' }} aria-hidden="true" />
                     <span

@@ -607,7 +607,7 @@ code {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 3px 10px;
+  padding: 2px 4px;
   border-radius: 20px;
   white-space: nowrap;
   font-weight: 600;
@@ -615,7 +615,7 @@ code {
 }
 
 .badge--small {
-  padding: 2px 7px;
+  padding: 2px 6px;
   font-size: 10px;
 }
 

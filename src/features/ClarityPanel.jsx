@@ -138,11 +138,10 @@ export function ClarityPanel({ task }) {
 
           <div className="stack stack-gap-6">
             <div className="panel__action-card panel__action-card--recommended" style={{ borderColor: 'rgba(39, 201, 154, 0.157)' }}>
-              <p className="title-md" style={{ margin: '0 0 4px', color: '#E4EDFF' }}>Sync with Rotem's team</p>
               <div className="flex-between" style={{ marginBottom: 5 }}>
-                <span className="badge badge--small" style={{ background: 'rgba(39, 201, 154, 0.1)', color: C.green, border: '1px solid rgba(39, 201, 154, 0.133)' }}>
+                <p className="title-md" style={{ margin: '0 0 4px', color: '#E4EDFF' }}>Sync with Rotem's team  <span className="badge badge--small" style={{ background: 'rgba(39, 201, 154, 0.1)', color: C.green, border: '1px solid rgba(39, 201, 154, 0.133)' }}>
                   ✓ Recommended
-                </span>
+                </span></p>
                 <span className="badge badge--small" style={{ background: 'rgba(43, 176, 230, 0.1)', color: C.teal, border: '1px solid rgba(43, 176, 230, 0.133)' }}>
                   high impact
                 </span>
@@ -159,14 +158,13 @@ export function ClarityPanel({ task }) {
 
             <div className="panel__action-card" style={{ borderColor: 'rgba(255, 255, 255, 0.055)' }}>
               <div className="flex-between" style={{ marginBottom: 5 }}>
-                <span />
+                <p className="title-md" style={{ margin: '0 0 4px', color: '#E4EDFF' }}>
+                  Reduce deployment scope
+                </p>
                 <span className="badge badge--small" style={{ background: 'rgba(90, 79, 207, 0.11)', color: C.indigo, border: '1px solid rgba(90, 79, 207, 0.133)' }}>
                   medium impact
                 </span>
               </div>
-              <p className="title-md" style={{ margin: '0 0 4px', color: '#E4EDFF' }}>
-                Reduce deployment scope
-              </p>
               <p style={{ margin: '0 0 7px', color: C.textSec, fontSize: 13, lineHeight: 1.55 }}>
                 Scope to partial staging deploy within 11h capacity
               </p>
@@ -179,14 +177,14 @@ export function ClarityPanel({ task }) {
 
             <div className="panel__action-card" style={{ borderColor: 'rgba(255, 255, 255, 0.055)' }}>
               <div className="flex-between" style={{ marginBottom: 5 }}>
-                <span />
+                <p className="title-md" style={{ margin: '0 0 4px', color: '#E4EDFF' }}>
+                  Move to next sprint
+                </p>
                 <span className="badge badge--small" style={{ background: 'rgba(39, 201, 154, 0.1)', color: C.green, border: '1px solid rgba(39, 201, 154, 0.133)' }}>
                   low impact
                 </span>
               </div>
-              <p className="title-md" style={{ margin: '0 0 4px', color: '#E4EDFF' }}>
-                Move to next sprint
-              </p>
+
               <p style={{ margin: '0 0 7px', color: C.textSec, fontSize: 13, lineHeight: 1.55 }}>
                 Defer until dependency is resolved and capacity fits
               </p>

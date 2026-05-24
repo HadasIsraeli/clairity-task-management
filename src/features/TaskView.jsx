@@ -65,8 +65,6 @@ export function TaskView({ taskKey, onBack }) {
                 </div>
             </Card>
 
-            <ClarityPanel task={task} />
-
             {isInProgress && (
                 <Card className="card-padding" style={{ marginBottom: 14 }}>
                     <p className="title-sm text-ter" style={{ margin: '0 0 14px', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
@@ -140,6 +138,8 @@ export function TaskView({ taskKey, onBack }) {
                     </div>
                 </Card>
             )}
+
+            <ClarityPanel task={task} />
 
             <div className="flex" style={{ gap: 0, marginBottom: 13, background: 'rgba(255,255,255,0.03)', borderRadius: 9, padding: 3, border: `1px solid ${C.border}` }}>
                 {[

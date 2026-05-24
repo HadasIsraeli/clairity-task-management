@@ -2,44 +2,55 @@ import { useState } from 'react';
 import { Avatar } from './Avatar';
 import { Tip } from './Tip';
 import { C } from '../constants/theme';
+import { NavLink } from 'react-router-dom';
 
 const NAV_TOP = [
-    { icon: 'layout-dashboard', label: 'Dashboard', view: 'dashboard' },
-    { icon: 'calendar-stats', label: 'Sprint Overview', view: null },
-    { icon: 'checklist', label: 'Tasks', view: null },
-    { icon: 'users-group', label: 'Teams', view: null },
+    { icon: 'layout-dashboard', label: 'Dashboard', to: '/' },
+    { icon: 'calendar-stats', label: 'Sprint Overview', to: null },
+    { icon: 'checklist', label: 'Tasks', to: null },
+    { icon: 'users-group', label: 'Teams', to: null },
 ];
 
 const NAV_MID = [
-    { icon: 'git-branch', label: 'Dependencies', view: null },
-    { icon: 'alert-triangle', label: 'Risks & Delays', view: null },
-    { icon: 'sparkles', label: 'AI Insights', view: null },
-    { icon: 'chart-bar', label: 'Analytics', view: null },
+    { icon: 'git-branch', label: 'Dependencies', to: null },
+    { icon: 'alert-triangle', label: 'Risks & Delays', to: null },
+    { icon: 'sparkles', label: 'AI Insights', to: null },
+    { icon: 'chart-bar', label: 'Analytics', to: null },
 ];
 
-function NavItem({ icon, label, active, onClick, collapsed }) {
+function NavItem({ icon, label, to, collapsed }) {
     const [hover, setHover] = useState(false);
 
+    const content = (
+        <div
+            onMouseEnter={() => setHover(true)}
+            onMouseLeave={() => setHover(false)}
+            style={{
+                width: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                gap: collapsed ? 0 : 9,
+                justifyContent: collapsed ? 'center' : 'flex-start',
+                padding: collapsed ? '8px 0' : '7px 11px',
+                borderRadius: 7,
+                textAlign: 'left',
+            }}
+        >
+            <i className={`ti ti-${icon} nav-button__icon`} style={{ color: hover ? C.textSec : C.textTer, fontSize: 16 }} aria-hidden="true" />
+            <span style={{ fontSize: 13, fontWeight: 500, color: hover ? C.textSec : C.textTer, whiteSpace: 'nowrap', overflow: 'hidden', maxWidth: collapsed ? 0 : 160, opacity: collapsed ? 0 : 1, transition: 'max-width 0.25s ease, opacity 0.18s ease', display: 'block' }}>{label}</span>
+        </div>
+    );
+
+    if (!to) return collapsed ? <Tip text={label}>{content}</Tip> : content;
+
     return (
-        <Tip text={collapsed ? label : ''}>
-            <button
-                onClick={onClick}
-                aria-label={label}
-                className={`sidebar__item ${active ? 'sidebar__item--active nav-button--active' : ''} ${collapsed ? 'nav-button--collapsed' : ''}`}
-                onMouseEnter={() => setHover(true)}
-                onMouseLeave={() => setHover(false)}
-                style={{ gap: collapsed ? 0 : 9, justifyContent: collapsed ? 'center' : 'flex-start' }}
-            >
-                <i className={`ti ti-${icon} nav-button__icon`} style={{ color: active ? C.teal : hover ? C.textSec : C.textTer }} aria-hidden="true" />
-                <span className="nav-button__label" style={{ maxWidth: collapsed ? 0 : 160, opacity: collapsed ? 0 : 1 }}>
-                    {label}
-                </span>
-            </button>
-        </Tip>
+        <NavLink to={to} style={{ textDecoration: 'none' }} className={({ isActive }) => (isActive ? 'sidebar__item sidebar__item--active' : 'sidebar__item')}>
+            {content}
+        </NavLink>
     );
 }
 
-export function Sidebar({ view, setView, collapsed, setCollapsed }) {
+export function Sidebar({ collapsed, setCollapsed }) {
     return (
         <div className="sidebar" style={{ width: collapsed ? 56 : 220, padding: collapsed ? '13px 8px' : '13px 10px', background: C.bgNav, borderRight: `1px solid ${C.border}` }}>
             <div className="sidebar__brand" style={{ justifyContent: collapsed ? 'center' : 'flex-start', padding: collapsed ? '2px 0' : '2px 3px' }}>
@@ -53,7 +64,7 @@ export function Sidebar({ view, setView, collapsed, setCollapsed }) {
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                 {NAV_TOP.map((item) => (
-                    <NavItem key={item.icon} {...item} collapsed={collapsed} active={view === item.view} onClick={() => item.view && setView(item.view)} />
+                    <NavItem key={item.icon} icon={item.icon} label={item.label} to={item.to} collapsed={collapsed} />
                 ))}
             </div>
 
@@ -61,13 +72,13 @@ export function Sidebar({ view, setView, collapsed, setCollapsed }) {
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                 {NAV_MID.map((item) => (
-                    <NavItem key={item.icon} {...item} collapsed={collapsed} active={false} onClick={() => { }} />
+                    <NavItem key={item.icon} icon={item.icon} label={item.label} to={item.to} collapsed={collapsed} />
                 ))}
             </div>
 
             <div style={{ marginTop: 'auto' }}>
                 <div className="sidebar__divider" />
-                <NavItem icon="settings" label="Settings" collapsed={collapsed} active={false} onClick={() => { }} />
+                <NavItem icon="settings" label="Settings" to="/settings" collapsed={collapsed} />
 
                 <div className="sidebar__account" style={{ justifyContent: collapsed ? 'center' : 'flex-start', padding: collapsed ? '8px 0' : '8px 11px' }}>
                     <Avatar initials="AL" color={C.indigo} size={26} />
