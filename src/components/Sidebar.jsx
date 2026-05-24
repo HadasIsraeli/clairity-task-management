@@ -94,10 +94,7 @@ export function Sidebar({ collapsed, setCollapsed }) {
                     className={`sidebar__toggle ${collapsed ? 'sidebar__toggle--collapsed' : ''}`}
                     style={{ justifyContent: collapsed ? 'center' : 'flex-start' }}
                 >
-                    <i className={`ti ${collapsed ? 'ti-layout-sidebar-right' : 'ti-layout-sidebar-left'}`} style={{ fontSize: 15, color: C.textTer }} aria-hidden="true" />
-                    <span className="sidebar__toggle-label" style={{ maxWidth: collapsed ? 0 : 80, opacity: collapsed ? 0 : 1 }}>
-                        Collapse
-                    </span>
+                    <i className={`ti ${collapsed ? 'ti-layout-sidebar-left-expand' : 'ti-layout-sidebar-left-collapse'}`} style={{ fontSize: 15, color: C.textTer }} aria-hidden="true" />
                 </button>
             </div>
         </div>

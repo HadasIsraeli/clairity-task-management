@@ -149,7 +149,7 @@ code {
 }
 
 .app-shell {
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   overflow: hidden;
 }
@@ -162,9 +162,13 @@ code {
 .app-main {
   flex: 1;
   min-width: 0;
+  min-height: 0;
 }
 
 .app-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
   height: 48px;
   display: flex;
   align-items: center;
@@ -291,8 +295,30 @@ code {
 
 .app-content {
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
   padding: 24px 22px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.app-content::-webkit-scrollbar {
+  display: none;
+}
+
+.chat-panel__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.chat-panel__body::-webkit-scrollbar {
+  display: none;
 }
 
 .floating-action {
@@ -653,6 +679,9 @@ code {
   flex-direction: column;
   flex-shrink: 0;
   transition: width 0.25s ease, padding 0.25s ease;
+  min-height: 100vh;
+  height: 100vh;
+  box-sizing: border-box;
 }
 
 .sidebar__brand {
@@ -768,6 +797,8 @@ code {
   background: var(--bg-nav);
   display: flex;
   flex-direction: column;
+  height: 100vh;
+  box-sizing: border-box;
 }
 
 .chat-panel__view {
