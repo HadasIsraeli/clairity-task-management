@@ -95,6 +95,10 @@ export function Dashboard({ onOpen }) {
                                             </Tip>
                                         )}
                                     </div>
+                                    <div className="dashboard__task-meta">
+                                        <span style={{ fontSize: 12, color: C.textTer }}>{task.id}</span>
+                                        <Pill label={task.tag} color={TAG_CLR[task.tag] || C.textSec} small className="dashboard__task-pill" />
+                                    </div>
                                     {task.atRisk && (
                                         <p style={{ fontSize: 12, color: C.red, margin: '7px 0 0', opacity: 0.8 }}>
                                             {task.riskType === 'overtime'
@@ -102,10 +106,6 @@ export function Dashboard({ onOpen }) {
                                                 : 'Pending dependency · review options →'}
                                         </p>
                                     )}
-                                    <div className="dashboard__task-meta">
-                                        <span style={{ fontSize: 12, color: C.textTer }}>{task.id}</span>
-                                        <Pill label={task.tag} color={TAG_CLR[task.tag] || C.textSec} small className="dashboard__task-pill" />
-                                    </div>
                                 </div>
                             ))}
                         </div>
