@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import { Avatar } from './Avatar';
-import { Tip } from './Tip';
-import { C } from '../constants/theme';
+import { Avatar, C, Tooltip } from '../ui';
 import { NavLink } from 'react-router-dom';
 
 const NAV_TOP = [
@@ -41,7 +39,7 @@ function NavItem({ icon, label, to, collapsed }) {
         </div>
     );
 
-    if (!to) return collapsed ? <Tip text={label}>{content}</Tip> : content;
+    if (!to) return collapsed ? <Tooltip text={label}>{content}</Tooltip> : content;
 
     return (
         <NavLink to={to} style={{ textDecoration: 'none' }} className={({ isActive }) => (isActive ? 'sidebar__item sidebar__item--active' : 'sidebar__item')}>

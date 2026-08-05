@@ -1,10 +1,16 @@
-import { C, F } from '../constants/theme';
+// Thin compatibility shim over the shared UI kit Button component.
+import { Button } from '../ui/Button';
+import { C } from '../ui/tokens';
 
 export function CtaButton({ label, recommended, className = '', ...props }) {
-    const classes = ['button', recommended ? 'button--recommended' : '', className].filter(Boolean).join(' ');
     return (
-        <button {...props} className={classes} style={{ fontFamily: F, borderColor: recommended ? C.teal : undefined, color: recommended ? C.teal : undefined }}>
-            {label} →
-        </button>
+        <Button
+            {...props}
+            label={label}
+            arrow
+            variant={recommended ? 'recommended' : 'ghost'}
+            tone={C.teal}
+            className={className}
+        />
     );
 }

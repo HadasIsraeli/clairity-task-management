@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function SettingsPage() {
   return (
     <div style={{ maxWidth: 880, margin: '0 auto', paddingBottom: 28 }}>

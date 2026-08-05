@@ -1,8 +1,7 @@
+// Thin compatibility shim over the shared UI kit Badge component, kept so
+// existing `<Pill label color small />` call sites keep working.
+import { Badge } from '../ui/Badge';
+
 export function Pill({ label, color, dim, small }) {
-    const classes = ['badge', 'badge--pill', small ? 'badge--small' : ''].filter(Boolean).join(' ');
-    return (
-        <span className={classes} style={{ background: dim || color + '18', color, borderColor: color + '28' }}>
-            {label}
-        </span>
-    );
+    return <Badge label={label} color={color} dim={dim} size={small ? 'sm' : 'md'} />;
 }

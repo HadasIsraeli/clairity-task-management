@@ -1,4 +1,3 @@
-import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { TaskView } from '../features/TaskView';
 import { TASKS, ALL_TASKS } from '../data/tasks';

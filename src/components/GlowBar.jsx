@@ -1,15 +1,3 @@
-export function GlowBar({ pct, color, height = 5 }) {
-    return (
-        <div className="glow-bar" style={{ height, borderRadius: height }}>
-            <div
-                className="glow-bar__fill"
-                style={{
-                    width: `${Math.min(Math.max(pct, 0), 100)}%`,
-                    background: color,
-                    borderRadius: height,
-                    boxShadow: `0 0 7px ${color}55`,
-                }}
-            />
-        </div>
-    );
-}
+// Thin compatibility shim — the real implementation now lives in the
+// shared UI kit at src/ui/ProgressBar.jsx.
+export { ProgressBar as GlowBar } from '../ui/ProgressBar';
