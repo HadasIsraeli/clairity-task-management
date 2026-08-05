@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Afacad:wght@400;500;600;700&display=swap');
+@import './ui/tokens.css';
 
 :root {
   --sans: 'Afacad', 'Inter', system-ui, sans-serif;
@@ -128,6 +129,31 @@ code {
 }
 
 /* UI Kit utilities and shared component styles */
+.glow-bar {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+  display: flex;
+}
+
+.glow-bar__fill {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.glow-bar--segmented {
+  gap: 2px;
+  background: transparent;
+}
+
+.glow-bar--segmented > div {
+  border-radius: 3px;
+}
+
+.icon-button:hover {
+  filter: brightness(1.12);
+}
+
 .panel__callout {
   display: flex;
   align-items: flex-start;
@@ -1324,6 +1350,7 @@ code {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  border: 1.5px solid var(--border-mid);
 }
 
 .task-step-label {
@@ -1461,4 +1488,71 @@ code {
   40% {
     opacity: 0.9;
   }
+}
+
+/* Session-state additions: sprint briefing, session summary, and the
+   AI-mentor action-logging states layered on top of the redesign above. */
+.dashboard__task-card--actioned {
+  background: rgba(39, 201, 154, 0.06);
+  border-color: rgba(39, 201, 154, 0.22);
+  cursor: pointer;
+}
+
+.dashboard__task-card--actioned:hover {
+  background: rgba(39, 201, 154, 0.1);
+}
+
+.dashboard__task-insight {
+  font-size: 12px;
+  margin: 7px 0 0;
+  color: var(--text-sec);
+  opacity: 0.9;
+}
+
+.dashboard__task-insight--actioned {
+  color: #22c38e;
+}
+
+.dashboard__briefing-card {
+  background: rgba(90, 79, 207, 0.08);
+  border-color: rgba(90, 79, 207, 0.18);
+}
+
+.dashboard__briefing-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.dashboard__briefing-copy {
+  font-size: 14px;
+  color: var(--text-sec);
+  line-height: 1.75;
+}
+
+.dashboard__summary-banner {
+  background: rgba(39, 201, 154, 0.07);
+  border-color: rgba(39, 201, 154, 0.18);
+}
+
+.panel__action-card--logged {
+  border-color: rgba(39, 201, 154, 0.18);
+  background: linear-gradient(180deg, rgba(39, 201, 154, 0.045), rgba(39, 201, 154, 0.01));
+  box-shadow: 0 0 0 1px rgba(39, 201, 154, 0.06) inset;
+}
+
+.projected-impact-badge {
+  position: absolute;
+  right: -6px;
+  top: -34px;
+  background: linear-gradient(180deg, rgba(39, 201, 154, 0.12), rgba(39, 201, 154, 0.06));
+  color: #07653f;
+  border: 1px solid rgba(39, 201, 154, 0.22);
+  border-radius: 12px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  z-index: 4;
 }

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import ClairityApp from '../features/ClairityApp';
 import DashboardPage from '../pages/DashboardPage';

@@ -1,14 +1,27 @@
 import { useEffect, useRef, useState } from 'react';
-import { C } from '../constants/theme';
-import { GlowBar } from '../components/GlowBar';
-import { Pill } from '../components/Pill';
+import { Badge, C, ProgressBar } from '../ui';
 import { SPRINT } from '../data/tasks';
 import { callClaude, SYS_DELIVERY } from '../lib/claude';
+import { useSession } from './SessionContext';
+
+// Fixed-color confidence gauge segments — mirrors the Figma "Sprint Delivery
+// Confidence" bar, which reads left (danger) to right (healthy) regardless
+// of the live score, with the score itself controlling how far it's filled.
+const CONFIDENCE_SEGMENTS = [
+    { pct: 25, color: C.red },
+    { pct: 25, color: C.orange },
+    { pct: 25, color: C.yellow },
+    { pct: 25, color: C.green },
+];
 
 export function DeliveryWidget() {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [displayScore, setDisplayScore] = useState(52);
     const fetched = useRef(false);
+    const { projectedScore, sessionPhase } = useSession();
+    const animationFrame = useRef(null);
+    const prevScoreRef = useRef(52);
 
     useEffect(() => {
         if (fetched.current) return;
@@ -24,7 +37,7 @@ export function DeliveryWidget() {
             .catch(() =>
                 setData({
                     score: 52,
-                    label: 'At risk',
+                    label: 'Steady but risky',
                     summary: 'Two tasks need attention to protect sprint delivery.',
                     tip: 'Prioritize unblocking TM-107 to restore downstream flow.',
                 }),
@@ -32,14 +45,44 @@ export function DeliveryWidget() {
             .finally(() => setLoading(false));
     }, []);
 
-    const scoreColor = data ? (data.score >= 70 ? C.green : data.score >= 45 ? C.yellow : C.red) : C.textTer;
+    useEffect(() => {
+        const start = prevScoreRef.current;
+        const target = projectedScore;
+        if (start === target) {
+            setDisplayScore(target);
+            return;
+        }
+
+        const duration = 700;
+        const begin = performance.now();
+
+        const animate = (timestamp) => {
+            const progress = Math.min((timestamp - begin) / duration, 1);
+            const current = Math.round(start + (target - start) * progress);
+            setDisplayScore(current);
+            if (progress < 1) {
+                animationFrame.current = requestAnimationFrame(animate);
+            } else {
+                prevScoreRef.current = target;
+            }
+        };
+
+        animationFrame.current = requestAnimationFrame(animate);
+
+        return () => {
+            if (animationFrame.current) cancelAnimationFrame(animationFrame.current);
+        };
+    }, [projectedScore]);
+
+    const scoreValue = data ? displayScore : 52;
+    const scoreColor = scoreValue >= 70 ? C.green : scoreValue >= 45 ? C.yellow : C.red;
 
     return (
         <div className="delivery-widget" style={{ boxShadow: data ? `0 0 0 1px ${scoreColor}10, 0 4px 20px ${scoreColor}06` : 'none' }}>
             <div className="delivery-widget__header">
                 <i className="ti ti-rocket" style={{ fontSize: 14, color: C.teal }} aria-hidden="true" />
                 <span className="title-sm text-ter" style={{ letterSpacing: '0.07em', textTransform: 'uppercase' }}>
-                    Sprint Delivery Potential
+                    Sprint Delivery Confidence
                 </span>
                 <div className="delivery-widget__status">
                     {loading ? (
@@ -56,7 +99,9 @@ export function DeliveryWidget() {
                                     display: 'inline-block',
                                 }}
                             />
-                            <span style={{ fontSize: 12, color: C.textTer }}>Live</span>
+                            <span style={{ fontSize: 12, color: C.textTer }}>
+                                {sessionPhase === 'entry' ? 'Live' : 'Updated just now'}
+                            </span>
                         </>
                     )}
                 </div>
@@ -74,13 +119,13 @@ export function DeliveryWidget() {
                 <div className="delivery-widget__bar">
                     <div>
                         <div className="delivery-widget__score" style={{ color: scoreColor }}>
-                            {data.score}
+                            {scoreValue}
                             <span style={{ fontSize: 16, opacity: 0.4 }}>/100</span>
                         </div>
-                        <Pill label={data.label} color={scoreColor} small />
+                        <Badge label={data.label} color={scoreColor} size="sm" />
                     </div>
                     <div>
-                        <GlowBar pct={data.score} color={scoreColor} height={5} />
+                        <ProgressBar segments={CONFIDENCE_SEGMENTS} height={5} />
                         <p className="delivery-widget__summary">{data.summary}</p>
                         <div className="delivery-widget__tip">
                             <i className="ti ti-bulb" style={{ fontSize: 14, color: C.yellow }} aria-hidden="true" />

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { C } from '../constants/theme';
+import { C, IconButton } from '../ui';
 import { callClaude, SYS_CHAT } from '../lib/claude';
 
 const QUICK = [
@@ -53,15 +53,7 @@ export function ChatPanel({ open, onClose, msgs, setMsgs }) {
                             Monitoring Sprint 24
                         </div>
                     </div>
-                    <button
-                        onClick={onClose}
-                        aria-label="Close Clairity"
-                        className="chat-panel__close"
-                        onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.10)'; e.currentTarget.style.color = C.textPri; }}
-                        onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.color = C.textSec; }}
-                    >
-                        <i className="ti ti-x" style={{ fontSize: 14, color: C.textSec }} aria-hidden="true" />
-                    </button>
+                    <IconButton icon="x" label="Close Clairity" onClick={onClose} active={false} className="chat-panel__close" style={{ width: 28, height: 28, borderRadius: 7, border: `1px solid ${C.border}` }} />
                 </div>
 
                 <div className="chat-panel__body" role="log" aria-live="polite">
@@ -105,8 +97,6 @@ export function ChatPanel({ open, onClose, msgs, setMsgs }) {
                                 key={index}
                                 onClick={() => send(question)}
                                 className="chat-panel__quick-button"
-                                onMouseEnter={(e) => { e.currentTarget.style.background = C.indigoDim; e.currentTarget.style.borderColor = C.indigo + '30'; e.currentTarget.style.color = C.textPri; }}
-                                onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.025)'; e.currentTarget.style.borderColor = C.border; e.currentTarget.style.color = C.textSec; }}
                             >
                                 {question}
                             </button>
@@ -122,13 +112,13 @@ export function ChatPanel({ open, onClose, msgs, setMsgs }) {
                         placeholder="Ask Clairity about risks, dependencies, workload…"
                         className="chat-panel__input"
                     />
-                    <button
+                    <IconButton
+                        icon="send"
+                        label="Send message"
+                        active={!!input.trim() && !loading}
                         onClick={() => send(input)}
                         disabled={!input.trim() || loading}
-                        className={`chat-panel__send${!input.trim() || loading ? ' chat-panel__send--disabled' : ''}`}
-                    >
-                        <i className="ti ti-send" style={{ fontSize: 15, color: input.trim() ? C.textPri : C.textTer }} aria-hidden="true" />
-                    </button>
+                    />
                 </div>
             </div>
         </div>

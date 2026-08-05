@@ -1,19 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
-import { C } from '../constants/theme';
+import { Badge, Button, C } from '../ui';
 import { SPRINT } from '../data/tasks';
-import { CtaButton } from '../components/CtaButton';
 import { callClaude, SYS_TASK } from '../lib/claude';
+import { useSession } from './SessionContext';
 
 export function ClarityPanel({ task }) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [hoveredAction, setHoveredAction] = useState(null);
+  const [pendingAction, setPendingAction] = useState(null);
   const fetched = useRef(false);
+  const { actionsLog, logAction, projectedScore, markReviewed } = useSession();
 
-  const impactCfg = {
-    high: { color: C.teal, dim: C.tealDim },
-    medium: { color: C.indigo, dim: C.indigoDim },
-    low: { color: C.green, dim: C.greenDim },
-  };
+  const impactTone = { high: 'teal', medium: 'indigo', low: 'green' };
 
   useEffect(() => {
     if (fetched.current) return;
@@ -42,90 +41,65 @@ export function ClarityPanel({ task }) {
       .finally(() => setLoading(false));
   }, [task]);
 
+  useEffect(() => {
+    markReviewed(task.id);
+  }, [markReviewed, task.id]);
+
   const showBlockedFallback = task.id === 'TM-119';
 
   const renderAction = (action, index) => {
-    const impact = impactCfg[action.impact] || impactCfg.medium;
+    const taskAction = actionsLog.find((item) => item.taskId === task.id);
+    const actionKey = action.cta || action.label;
+    const actionTaken = taskAction?.actionLabel === actionKey;
+    const scoreImpact = actionTaken
+      ? taskAction.scoreImpact
+      : action.impact === 'high'
+        ? 17
+        : action.impact === 'medium'
+          ? 8
+          : 5;
+    const projectedAfter = Math.min(100, projectedScore + (actionTaken ? 0 : scoreImpact));
+    const impactBadge = `↑ Confidence: ${projectedScore} → ${projectedAfter} +${scoreImpact} pts`;
+
+    const handleAction = () => {
+      if (actionTaken || !action.cta || pendingAction) return;
+      setPendingAction(actionKey);
+      setTimeout(() => {
+        logAction(task.id, actionKey);
+        setPendingAction(null);
+      }, 160);
+    };
+
     return (
-      <div
+      <ActionCard
         key={index}
-        className={`panel__action-card${action.recommended ? ' panel__action-card--recommended' : ''}`}
-      >
-        <p className="title-md" style={{ margin: '0 0 4px', color: C.textPri, lineHeight: 1.35 }}>
-          {action.label}
-        </p>
-        <div className="flex-between" style={{ marginBottom: 5 }}>
-          <span
-            style={{
-              fontSize: 10,
-              fontWeight: 700,
-              padding: '1px 7px',
-              borderRadius: 20,
-              background: action.recommended ? C.greenDim : 'transparent',
-              color: action.recommended ? C.green : C.textSec,
-              border: action.recommended ? `1px solid ${C.green}22` : 'none',
-            }}
-          >
-            {action.recommended ? '✓ Recommended' : <span />}
-          </span>
-          <span
-            style={{
-              fontSize: 10,
-              fontWeight: 700,
-              padding: '1px 8px',
-              borderRadius: 20,
-              background: impact.dim,
-              color: impact.color,
-              border: `1px solid ${impact.color}22`,
-            }}
-          >
-            {action.impact} impact
-          </span>
-        </div>
-        <p style={{ margin: action.cta ? '0 0 7px' : 0, color: C.textSec, fontSize: 13, lineHeight: 1.55 }}>
-          {action.detail}
-        </p>
-        {action.cta && (
-          <div className="flex" style={{ justifyContent: 'flex-end' }}>
-            <CtaButton label={action.cta} recommended={action.recommended} />
-          </div>
-        )}
-      </div>
+        title={action.label}
+        recommended={action.recommended}
+        impactTone={impactTone[action.impact] || 'indigo'}
+        impactLabel={`${action.impact} impact`}
+        detail={action.detail}
+        cta={action.cta}
+        actionTaken={actionTaken}
+        acknowledged={taskAction?.acknowledged}
+        pending={pendingAction === actionKey}
+        onAction={handleAction}
+        onHover={(hovering) => setHoveredAction(hovering ? index : null)}
+        impactBadge={hoveredAction === index ? impactBadge : null}
+      />
     );
   };
 
   if (showBlockedFallback) {
     return (
-      <div
-        className="panel"
-        style={{
-          marginBottom: 14,
-          background: 'rgb(13, 23, 41)',
-          borderColor: 'rgba(255, 255, 255, 0.055)',
-          boxShadow: 'rgba(90, 79, 207, 0.063) 0px 0px 0px 1px, rgba(90, 79, 207, 0.024) 0px 8px 28px',
-        }}
-      >
-        <div className="panel__header" style={{ background: 'rgba(90, 79, 207, 0.11)' }}>
-          <div className="icon-box icon-box--large" style={{ width: 22, height: 22, borderRadius: 6, background: 'rgba(90, 79, 207, 0.157)' }}>
-            <i className="ti ti-sparkles" style={{ fontSize: 12, color: C.indigo }} aria-hidden="true" />
-          </div>
-          <div>
-            <span style={{ fontSize: 11, fontWeight: 700, color: C.indigo, letterSpacing: '0.06em' }}>CLAIRITY</span>
-            <span style={{ display: 'inline-block', marginLeft: 7, fontSize: 11, color: C.indigo, opacity: 0.6 }}>
-              Sprint Intelligence Advisor
-            </span>
-          </div>
-        </div>
-
+      <div className="panel" style={{ marginBottom: 14 }}>
+        <PanelHeader />
         <div className="panel__body">
-          <p className="panel__title" style={{ color: '#E4EDFF' }}>
-            Deployment blocked before it can begin.
-          </p>
-          <p className="panel__text" style={{ color: 'rgb(150, 175, 204)' }}>
+          <p className="panel__title">Deployment blocked before it can begin.</p>
+          <p className="panel__text">
             The 14h estimate already exceeds sprint capacity, and the upstream dependency hasn't started yet. This task needs either unblocking coordination or a scope decision before Daria can move forward.
           </p>
 
-          <div className="panel__callout" style={{ background: 'rgba(90, 79, 207, 0.11)', border: '1px solid rgba(90, 79, 207, 0.125)' }}>
+          <div className="panel__callout" style={{ background: C.indigoDim, border: `1px solid ${C.indigo}20` }}>
             <i className="ti ti-quote" style={{ fontSize: 13, color: C.indigo }} aria-hidden="true" />
             <p style={{ margin: 0, color: C.indigo, lineHeight: 1.6, fontStyle: 'italic', opacity: 0.88 }}>
               I'd prioritize the sync first — unblocking Rotem's work is the lever that makes everything else possible.
@@ -137,63 +111,28 @@ export function ClarityPanel({ task }) {
           </p>
 
           <div className="stack stack-gap-6">
-            <div className="panel__action-card panel__action-card--recommended" style={{ borderColor: 'rgba(39, 201, 154, 0.157)' }}>
-              <div className="flex-between" style={{ marginBottom: 5 }}>
-                <p className="title-md" style={{ margin: '0 0 4px', color: '#E4EDFF' }}>Sync with Rotem's team  <span className="badge badge--small" style={{ background: 'rgba(39, 201, 154, 0.1)', color: C.green, border: '1px solid rgba(39, 201, 154, 0.133)' }}>
-                  ✓ Recommended
-                </span></p>
-                <span className="badge badge--small" style={{ background: 'rgba(43, 176, 230, 0.1)', color: C.teal, border: '1px solid rgba(43, 176, 230, 0.133)' }}>
-                  high impact
-                </span>
-              </div>
-              <p style={{ margin: '0 0 7px', color: C.textSec, fontSize: 13, lineHeight: 1.55 }}>
-                Align on API Gateway timeline before sprint ends
-              </p>
-              <div className="flex" style={{ justifyContent: 'flex-end' }}>
-                <button className="button button--ghost button--small" style={{ borderColor: 'rgba(43, 176, 230, 0.25)', color: C.teal, background: 'rgba(43, 176, 230, 0.1)' }}>
-                  Schedule a sync →
-                </button>
-              </div>
-            </div>
-
-            <div className="panel__action-card" style={{ borderColor: 'rgba(255, 255, 255, 0.055)' }}>
-              <div className="flex-between" style={{ marginBottom: 5 }}>
-                <p className="title-md" style={{ margin: '0 0 4px', color: '#E4EDFF' }}>
-                  Reduce deployment scope
-                </p>
-                <span className="badge badge--small" style={{ background: 'rgba(90, 79, 207, 0.11)', color: C.indigo, border: '1px solid rgba(90, 79, 207, 0.133)' }}>
-                  medium impact
-                </span>
-              </div>
-              <p style={{ margin: '0 0 7px', color: C.textSec, fontSize: 13, lineHeight: 1.55 }}>
-                Scope to partial staging deploy within 11h capacity
-              </p>
-              <div className="flex" style={{ justifyContent: 'flex-end' }}>
-                <button className="button button--ghost button--small" style={{ borderColor: 'rgba(255, 255, 255, 0.055)', color: C.textSec }}>
-                  Reduce scope →
-                </button>
-              </div>
-            </div>
-
-            <div className="panel__action-card" style={{ borderColor: 'rgba(255, 255, 255, 0.055)' }}>
-              <div className="flex-between" style={{ marginBottom: 5 }}>
-                <p className="title-md" style={{ margin: '0 0 4px', color: '#E4EDFF' }}>
-                  Move to next sprint
-                </p>
-                <span className="badge badge--small" style={{ background: 'rgba(39, 201, 154, 0.1)', color: C.green, border: '1px solid rgba(39, 201, 154, 0.133)' }}>
-                  low impact
-                </span>
-              </div>
-
-              <p style={{ margin: '0 0 7px', color: C.textSec, fontSize: 13, lineHeight: 1.55 }}>
-                Defer until dependency is resolved and capacity fits
-              </p>
-              <div className="flex" style={{ justifyContent: 'flex-end' }}>
-                <button className="button button--ghost button--small" style={{ borderColor: 'rgba(255, 255, 255, 0.055)', color: C.textSec }}>
-                  Move to next sprint →
-                </button>
-              </div>
-            </div>
+            <ActionCard
+              title="Sync with Rotem's team"
+              recommended
+              impactTone="teal"
+              impactLabel="high impact"
+              detail="Align on API Gateway timeline before sprint ends"
+              cta="Schedule a sync"
+            />
+            <ActionCard
+              title="Reduce deployment scope"
+              impactTone="indigo"
+              impactLabel="medium impact"
+              detail="Scope to partial staging deploy within 11h capacity"
+              cta="Reduce scope"
+            />
+            <ActionCard
+              title="Move to next sprint"
+              impactTone="green"
+              impactLabel="low impact"
+              detail="Defer until dependency is resolved and capacity fits"
+              cta="Move to next sprint"
+            />
           </div>
         </div>
       </div>
@@ -202,18 +141,7 @@ export function ClarityPanel({ task }) {
 
   return (
     <div className="panel panel--glow" style={{ marginBottom: 14, '--glow': C.indigo }}>
-      <div className="panel__header">
-        <div className="icon-box icon-box--large" style={{ background: C.indigo + '28' }}>
-          <i className="ti ti-sparkles" style={{ fontSize: 12, color: C.indigo }} aria-hidden="true" />
-        </div>
-        <div>
-          <span style={{ fontSize: 11, fontWeight: 700, color: C.indigo, letterSpacing: '0.06em' }}>CLAIRITY</span>
-          <span style={{ display: 'inline-block', marginLeft: 7, fontSize: 11, color: C.indigo, opacity: 0.6 }}>
-            Sprint Intelligence Advisor
-          </span>
-        </div>
-        {loading && <span style={{ marginLeft: 'auto', fontSize: 11, color: C.textTer }}>Reviewing…</span>}
-      </div>
+      <PanelHeader right={loading ? <span style={{ marginLeft: 'auto', fontSize: 11, color: C.textTer }}>Reviewing…</span> : null} />
 
       {loading && (
         <div className="panel__body">
@@ -254,6 +182,80 @@ export function ClarityPanel({ task }) {
             </div>
           )}
         </div>
+      )}
+    </div>
+  );
+}
+
+function PanelHeader({ right }) {
+  return (
+    <div className="panel__header">
+      <div className="icon-box icon-box--large" style={{ background: `${C.indigo}28` }}>
+        <i className="ti ti-sparkles" style={{ fontSize: 12, color: C.indigo }} aria-hidden="true" />
+      </div>
+      <div>
+        <span style={{ fontSize: 11, fontWeight: 700, color: C.indigo, letterSpacing: '0.06em' }}>CLAIRITY</span>
+        <span style={{ display: 'inline-block', marginLeft: 7, fontSize: 11, color: C.indigo, opacity: 0.6 }}>
+          Sprint Intelligence Advisor
+        </span>
+      </div>
+      {right}
+    </div>
+  );
+}
+
+function ActionCard({
+  title,
+  recommended,
+  impactTone,
+  impactLabel,
+  detail,
+  cta,
+  actionTaken = false,
+  acknowledged,
+  pending = false,
+  onAction,
+  onHover,
+  impactBadge,
+}) {
+  return (
+    <div
+      className={`panel__action-card${recommended ? ' panel__action-card--recommended' : ''}${actionTaken ? ' panel__action-card--logged' : ''}`}
+    >
+      <p className="title-md" style={{ margin: '0 0 4px', color: C.textPri, lineHeight: 1.35 }}>{title}</p>
+      <div className="flex-between" style={{ marginBottom: 5 }}>
+        {recommended ? <Badge label="✓ Recommended" tone="green" size="sm" /> : <span />}
+        <Badge label={impactLabel} tone={impactTone} size="sm" />
+      </div>
+      <p style={{ margin: cta ? '0 0 7px' : 0, color: C.textSec, fontSize: 13, lineHeight: 1.55 }}>{detail}</p>
+      {cta && (
+        actionTaken ? (
+          <div style={{ padding: '12px 14px', borderRadius: 12, background: 'rgba(39, 201, 154, 0.08)' }}>
+            <div className="flex-between" style={{ gap: 10, marginBottom: 6 }}>
+              <span style={{ fontSize: 12, fontWeight: 700, color: C.green }}>✓ Logged · Delivery confidence updated</span>
+            </div>
+            <p style={{ margin: 0, color: C.textSec, fontSize: 13, lineHeight: 1.65, fontStyle: 'italic' }}>
+              {acknowledged || 'Logged. Delivery confidence is updated and I’m monitoring this action.'}
+            </p>
+          </div>
+        ) : (
+          <div className="flex" style={{ justifyContent: 'flex-end' }}>
+            <div style={{ position: 'relative' }}>
+              <Button
+                label={pending ? 'Logging…' : cta}
+                arrow={!pending}
+                variant={recommended ? 'recommended' : 'ghost'}
+                tone={C.teal}
+                size="sm"
+                onClick={onAction}
+                disabled={pending}
+                onMouseEnter={() => onHover?.(true)}
+                onMouseLeave={() => onHover?.(false)}
+              />
+              {impactBadge && <div className="projected-impact-badge">{impactBadge}</div>}
+            </div>
+          </div>
+        )
       )}
     </div>
   );

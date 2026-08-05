@@ -1,25 +1,5 @@
-export const C = {
-    bg: "#070D19",
-    bgNav: "#0A1120",
-    card: "#0F1D36",
-    cardAlt: "#132038",
-    border: "rgba(255,255,255,0.08)",
-    borderMid: "rgba(255,255,255,0.12)",
-    shadow: "0 1px 3px rgba(0,0,0,0.35), 0 4px 16px rgba(0,0,0,0.2)",
-    teal: "#2BB0E6",
-    tealDim: "rgba(43,176,230,0.10)",
-    indigo: "#5A4FCF",
-    indigoDim: "rgba(90,79,207,0.12)",
-    green: "#27C99A",
-    greenDim: "rgba(39,201,154,0.10)",
-    red: "#F0506A",
-    redDim: "rgba(240,80,106,0.10)",
-    yellow: "#F0C040",
-    yellowDim: "rgba(240,192,64,0.10)",
-    orange: "#F07B3C",
-    orangeDim: "rgba(240,123,60,0.10)",
-    textPri: "#E4EDFF",
-    textSec: "#96AFCC",
-    textTer: "#587090",
-};
-export const F = `'Afacad','Inter',system-ui,sans-serif`;
+// Kept for backward compatibility — the UI kit tokens (src/ui/tokens.js /
+// src/ui/tokens.css) are now the single source of truth for color and
+// typography values. This file just re-exports them so existing imports
+// of `C` / `F` from `constants/theme` keep working.
+export { C, F } from '../ui/tokens';

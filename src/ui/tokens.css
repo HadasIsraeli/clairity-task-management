@@ -1,0 +1,73 @@
+/*
+ * Clairity UI kit design tokens.
+ * Sourced from the Figma "Task Management AI" file (cLshpuj2nu9IbalJF3hM0G),
+ * page "components" (3:3) variable definitions, reconciled with the
+ * app's existing dark theme so values don't shift under existing screens.
+ */
+:root {
+  /* Surfaces */
+  --clr-bg: #070d19;
+  --clr-bg-nav: #0a1120;
+  --clr-card: #0f1d36;
+  --clr-card-alt: #132038;
+
+  /* Borders */
+  --clr-border: rgba(255, 255, 255, 0.08);
+  --clr-border-mid: rgba(255, 255, 255, 0.12);
+
+  /* Brand / semantic colors (Figma: color/Teal/Picton Blue 18, color/Blue/Blue Violet 46,
+     color/Turquoise/Caribbean Green 12-1, color/Red/Mandy 26-1, color/Gold/Saffron 20-1,
+     color/Red/Crusta 24-1) */
+  --clr-teal: #2bb0e6;
+  --clr-teal-dim: rgba(43, 176, 230, 0.1);
+  --clr-indigo: #5a4fcf;
+  --clr-indigo-dim: rgba(90, 79, 207, 0.12);
+  --clr-green: #27c99a;
+  --clr-green-dim: rgba(39, 201, 154, 0.1);
+  --clr-red: #f0506a;
+  --clr-red-dim: rgba(240, 80, 106, 0.1);
+  --clr-yellow: #f0c040;
+  --clr-yellow-dim: rgba(240, 192, 64, 0.1);
+  --clr-orange: #f07b3c;
+  --clr-orange-dim: rgba(240, 123, 60, 0.1);
+
+  /* Text (Figma: Text #f4f6f8, Gray/Lynch 31 #6a82a8) */
+  --clr-text-pri: #e4edff;
+  --clr-text-sec: #96afcc;
+  --clr-text-ter: #587090;
+
+  /* Shadows (Figma: Drop Shadow Card) */
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.35), 0 4px 16px rgba(0, 0, 0, 0.2);
+
+  /* Typography (Figma text styles: Headline Bold, Title 1/2/3, Body 1/3, Text 1/2, tags, action btn text) */
+  --font-sans: 'Afacad', 'Inter', system-ui, sans-serif;
+  --font-headline: 700 32px/1.2 var(--font-sans);
+  --font-title-1: 700 24px/1.2 var(--font-sans);
+  --font-title-2: 600 20px/1.4 var(--font-sans);
+  --font-title-3: 600 18px/1.35 var(--font-sans);
+  --font-body-1: 700 16px/1.5 var(--font-sans);
+  --font-body-3: 500 14px/1.5 var(--font-sans);
+  --font-text-1: 400 14px/1.15 var(--font-sans);
+  --font-text-2: 500 14px/1.15 var(--font-sans);
+  --font-tag: 700 10px/1 var(--font-sans);
+  --font-action-btn: 700 12px/1.5 var(--font-sans);
+  --letter-spacing-action-btn: 0.24px;
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 6px;
+  --space-3: 8px;
+  --space-4: 10px;
+  --space-5: 12px;
+  --space-6: 14px;
+  --space-7: 16px;
+  --space-8: 18px;
+  --space-9: 22px;
+
+  /* Radii */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 12px;
+  --radius-pill: 999px;
+}

@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { C, F } from '../constants/theme';
+import { Badge, C, F } from '../ui';
 import { Sidebar } from '../components/Sidebar';
 import { ChatPanel } from './ChatPanel';
-import { Pill } from '../components/Pill';
 import { SPRINT, TASKS, ALL_TASKS } from '../data/tasks';
 import { Outlet, useLocation } from 'react-router-dom';
 
@@ -50,8 +49,8 @@ export default function ClairityApp() {
                         <span className="page-header__trail">{rightLabel}</span>
                     </div>
                     <div className="page-meta">
-                        <Pill label={`${SPRINT.daysLeft}d left`} color={C.yellow} small />
-                        <Pill label={`${SPRINT.atRisk} at risk`} color={C.red} small />
+                        <Badge label={`${SPRINT.daysLeft}d left`} tone="yellow" size="sm" />
+                        <Badge label={`${SPRINT.atRisk} at risk`} tone="red" size="sm" />
                     </div>
                 </div>
 
