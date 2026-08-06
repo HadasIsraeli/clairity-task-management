@@ -230,7 +230,8 @@ code {
 }
 
 .dashboard {
-  max-width: 920px;
+  width: 100%;
+  max-width: 1600px;
   margin: 0 auto;
   padding-bottom: 28px;
 }
@@ -260,9 +261,16 @@ code {
 }
 
 .dashboard__section {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
   gap: 16px;
+  align-items: start;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.dashboard__section > div {
+  flex: 1 1 260px;
+  min-width: 260px;
 }
 
 .dashboard__row {
@@ -284,9 +292,38 @@ code {
   grid-template-columns: 1fr auto;
 }
 
+@media (max-width: 1180px) {
+  .dashboard__row--delivery {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .dashboard__row--delivery .delivery-widget {
+    grid-column: 1 / -1;
+  }
+
+  .dashboard__row--brief {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard__donut-card {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 820px) {
+  .dashboard__row--delivery {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard__row--delivery .delivery-widget {
+    grid-column: auto;
+  }
+}
+
 .dashboard__board-header {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 14px;
 }
@@ -871,7 +908,7 @@ code {
 
 .card-grid-4 {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 10px;
 }
 
@@ -1948,6 +1985,7 @@ code {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 10px;
   margin: 0 16px 14px;
   padding: 8px 12px;
@@ -1961,13 +1999,17 @@ code {
   align-items: center;
   gap: 8px;
   min-width: 0;
+  flex: 1 1 auto;
 }
 
 .dashboard__briefing-task-title {
   font-size: 14px;
   font-weight: 500;
   color: var(--text-pri);
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
+  min-width: 0;
 }
 
 .dashboard__briefing-task-id {
