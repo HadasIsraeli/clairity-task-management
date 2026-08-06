@@ -663,13 +663,13 @@ code {
 }
 
 .card.dashboard__task-card--at-risk {
-  background: rgba(240, 80, 106, 0.05);
+  background: #0D1729;
   border-color: rgba(240, 80, 106, 0.157);
   cursor: pointer;
 }
 
 .dashboard__task-card--at-risk:hover {
-  background: rgba(240, 80, 106, 0.09);
+  background: #0D1729;
 }
 
 .dashboard__task-title {
