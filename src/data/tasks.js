@@ -1,6 +1,6 @@
 import { C } from '../constants/theme';
 
-export const SPRINT = { name: "Sprint 24", dates: "May 6–20, 2026", daysLeft: 7, total: 14, completed: 8, inProgress: 4, atRisk: 2 };
+export const SPRINT = { name: "Sprint 24", dates: "May 6–20, 2026", daysLeft: 7, total: 15, completed: 4, inProgress: 4, atRisk: 2 };
 
 export const TASKS = {
     inProgress: {
@@ -46,13 +46,31 @@ export const ALL_TASKS = [
     { id: "TM-116", title: "Mobile push notifications", assignee: "Shira Dahan", status: "To Do", tag: "Mobile" },
     { id: "TM-117", title: "Analytics event schema", assignee: "Liron Bar", status: "To Do", tag: "Data" },
     { id: "TM-118", title: "E2E test coverage", assignee: "Itai Friedman", status: "To Do", tag: "QA" },
-    { id: "TM-119", title: "Deploy Notification Service", assignee: "Daria Shmueli", status: "To Do", tag: "DevOps", atRisk: true, riskType: "blocked" },
+    { id: "TM-119", title: "Deploy Notification Service", assignee: "Daria Shmueli", status: "Blocked", tag: "DevOps", atRisk: true, riskType: "blocked" },
     { id: "TM-120", title: "Load testing & optimization", assignee: "Barak Cohen", status: "To Do", tag: "Infra" },
     { id: "TM-121", title: "Security audit", assignee: "Dana Levy", status: "To Do", tag: "Security" },
+    { id: "TM-107", title: "Configure API Gateway Routing Rules", assignee: "Rotem Levi", status: "To Do", tag: "Platform" },
+];
+
+// Cross-task dependency edges, used by the Dependencies graph view.
+// Each edge points from a blocking task to the task it blocks.
+export const DEPENDENCIES = [
+    {
+        blockerId: "TM-107",
+        blockedId: "TM-119",
+        status: "active",
+        note: "Active blocker — hasn't started",
+    },
+    {
+        blockerId: "TM-108",
+        blockedId: "TM-113",
+        status: "resolved",
+        note: "Resolved — dependency complete",
+    },
 ];
 
 export const TAG_CLR = {
     Backend: C.indigo, Auth: C.red, API: C.teal, Frontend: C.orange,
     Infra: C.textSec, DB: C.yellow, Mobile: C.teal, Data: C.indigo,
-    QA: C.green, DevOps: C.orange, Security: C.red,
+    QA: C.green, DevOps: C.orange, Security: C.red, Platform: C.indigo,
 };

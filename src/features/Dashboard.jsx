@@ -1,18 +1,48 @@
-import { ALL_TASKS, SPRINT, TAG_CLR } from '../data/tasks';
-import { Badge, Card, StatCard, Tooltip, C } from '../ui';
-import { ProgressBar } from '../ui/ProgressBar';
+import { useEffect, useRef, useState } from 'react';
+import { ALL_TASKS, SPRINT, TAG_CLR, TASKS } from '../data/tasks';
+import { Avatar, Badge, Card, DonutChart, Tooltip, C } from '../ui';
 import { DeliveryWidget } from './DeliveryWidget';
+import { CalendarWidget } from './CalendarWidget';
+import { TeamChatsWidget } from './TeamChatsWidget';
 import { useSession } from './SessionContext';
+import sparkleIcon from '../assets/figma/sparkle-icon.svg';
+import profile1 from '../assets/figma/profile-1.png';
+import profile2 from '../assets/figma/profile-2.png';
+import profile3 from '../assets/figma/profile-3.png';
+import profile4 from '../assets/figma/profile-4.png';
+import profile5 from '../assets/figma/profile-5.png';
+
+const PHOTOS = [profile1, profile2, profile3, profile4, profile5];
 
 export function Dashboard({ onOpen }) {
-    const { briefingDismissed, dismissBriefing, briefingText, showSummary, summaryText, actionsLog } = useSession();
-    const cols = ['To Do', 'In Progress', 'Done'];
+    const { briefingDismissed, briefingText, showSummary, summaryText, actionsLog } = useSession();
+    const cols = ['Blocked', 'To Do', 'In Progress', 'Done'];
     const byStatus = {};
     cols.forEach((column) => {
         byStatus[column] = ALL_TASKS.filter((task) => task.status === column);
     });
-    const pct = Math.round((SPRINT.completed / SPRINT.total) * 100);
-    const colDot = { Done: C.green, 'In Progress': C.teal, 'To Do': C.textTer };
+    const colDot = { Blocked: C.red, Done: C.green, 'In Progress': C.teal, 'To Do': C.textTer };
+    const donutSegments = [
+        { label: 'Blocked', value: byStatus.Blocked.length, color: C.red },
+        { label: 'To Do', value: byStatus['To Do'].length, color: C.textTer },
+        { label: 'Done', value: byStatus.Done.length, color: C.green },
+        { label: 'In Progress', value: byStatus['In Progress'].length, color: C.teal },
+    ];
+    const donutPct = Math.round((SPRINT.completed / SPRINT.total) * 100);
+    const briefTask = TASKS.inProgress;
+
+    // Calendar/Team cards should never grow taller than the Delivery
+    // Confidence card next to them — they scroll internally instead.
+    const deliveryRef = useRef(null);
+    const [deliveryHeight, setDeliveryHeight] = useState(null);
+
+    useEffect(() => {
+        const el = deliveryRef.current;
+        if (!el || typeof ResizeObserver === 'undefined') return;
+        const observer = new ResizeObserver(([entry]) => setDeliveryHeight(entry.contentRect.height));
+        observer.observe(el);
+        return () => observer.disconnect();
+    }, []);
 
     return (
         <div className="dashboard">
@@ -23,41 +53,45 @@ export function Dashboard({ onOpen }) {
                         {SPRINT.dates} · {SPRINT.daysLeft} days remaining
                     </span>
                 </div>
-                <Badge label="Active sprint" tone="green" />
-            </div>
-
-            <div className="dashboard__progress">
-                <div className="flex-between" style={{ marginBottom: 7 }}>
-                    <span className="title-sm text-ter">Sprint progress</span>
-                    <span style={{ fontSize: 12, color: C.green, fontWeight: 700 }}>{pct}% complete</span>
+                <div className="flex" style={{ gap: 8 }}>
+                    <Badge label="Active sprint" tone="green" />
+                    <Badge label={`${SPRINT.daysLeft}d left`} tone="yellow" />
                 </div>
-                <ProgressBar pct={pct} color={C.green} height={4} />
             </div>
 
-            {!briefingDismissed && (
-                <Card className="card-padding dashboard__briefing-card" style={{ marginBottom: 14, borderColor: 'rgba(90, 79, 207, 0.18)' }}>
-                    <div className="dashboard__briefing-header">
-                        <span className="title-xs" style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase', color: C.indigo }}>
-                            CLAIRITY · Sprint Briefing
-                        </span>
-                        <button className="button button--ghost button--small" onClick={dismissBriefing} style={{ color: C.textTer, borderColor: 'transparent' }}>
-                            Dismiss
-                        </button>
-                    </div>
-                    <p className="dashboard__briefing-copy" style={{ margin: '10px 0 14px', color: C.textSec, lineHeight: 1.7 }}>{briefingText}</p>
-                    <div className="flex-between" style={{ gap: 10 }}>
-                        <button
-                            className="button button--primary"
-                            type="button"
-                            onClick={() => onOpen('inProgress')}
-                        >
-                            Review TM-112 →
-                        </button>
-                    </div>
-                </Card>
-            )}
+            <div className="dashboard__row dashboard__row--delivery">
+                <DeliveryWidget ref={deliveryRef} />
+                <CalendarWidget maxHeight={deliveryHeight} />
+                <TeamChatsWidget maxHeight={deliveryHeight} />
+            </div>
 
-            <DeliveryWidget />
+            <div className="dashboard__row dashboard__row--brief">
+                {!briefingDismissed ? (
+                    <Card padding="lg" className="dashboard__briefing-card">
+                        <div className="dashboard__briefing-header">
+                            <img src={sparkleIcon} alt="" className="dashboard__briefing-icon" />
+                            <span className="dashboard__briefing-label">Sprint Brief</span>
+                        </div>
+                        <p className="dashboard__briefing-copy">{briefingText}</p>
+                        <div className="dashboard__briefing-task">
+                            <div className="dashboard__briefing-task-info">
+                                <Avatar initials={briefTask.assignee.initials} color={briefTask.assignee.color} size={22} />
+                                <span className="dashboard__briefing-task-title">{briefTask.title}</span>
+                                <span className="dashboard__briefing-task-id">{briefTask.id}</span>
+                                <Badge label={briefTask.tags[1] || briefTask.tags[0]} color={TAG_CLR[briefTask.tags[1] || briefTask.tags[0]] || C.textSec} size="sm" />
+                            </div>
+                            <button type="button" className="dashboard__briefing-cta" onClick={() => onOpen('inProgress')}>
+                                Review Options
+                            </button>
+                        </div>
+                    </Card>
+                ) : (
+                    <div />
+                )}
+                <Card className="dashboard__donut-card">
+                    <DonutChart segments={donutSegments} centerLabel={`${donutPct}%`} size={132} thickness={16} />
+                </Card>
+            </div>
 
             {showSummary && (
                 <Card className="card-padding dashboard__summary-banner" style={{ marginBottom: 14, borderColor: 'rgba(39, 201, 154, 0.18)' }}>
@@ -68,15 +102,14 @@ export function Dashboard({ onOpen }) {
                 </Card>
             )}
 
-            <div className="card-grid-4">
-                {[
-                    { label: 'Total tasks', val: SPRINT.total, color: C.textPri, icon: 'list-check' },
-                    { label: 'Completed', val: SPRINT.completed, color: C.green, icon: 'circle-check' },
-                    { label: 'In progress', val: SPRINT.inProgress, color: C.teal, icon: 'loader-2' },
-                    { label: 'At risk', val: SPRINT.atRisk, color: C.red, icon: 'alert-triangle' },
-                ].map((item) => (
-                    <StatCard key={item.label} label={item.label} value={item.val} color={item.color} icon={item.icon} />
-                ))}
+            <div className="dashboard__board-header">
+                <span className="title-lg">Board</span>
+                <Badge label={`${SPRINT.atRisk} at risk`} tone="red" size="sm" />
+                <button type="button" className="dashboard__filter-view" disabled>
+                    <i className="ti ti-filter" aria-hidden="true" />
+                    Filter View
+                    <span className="dashboard__filter-view-count">4/7</span>
+                </button>
             </div>
 
             <div className="dashboard__section">
@@ -105,6 +138,7 @@ export function Dashboard({ onOpen }) {
                                         ? 'dashboard__task-card--actioned'
                                         : 'dashboard__task-card--at-risk'
                                     : '';
+                                const photo = PHOTOS[ALL_TASKS.indexOf(task) % PHOTOS.length];
 
                                 return (
                                     <Card
@@ -128,7 +162,10 @@ export function Dashboard({ onOpen }) {
                                             )}
                                         </div>
                                         <div className="dashboard__task-meta">
-                                            <span style={{ fontSize: 12, color: C.textTer }}>{task.id}</span>
+                                            <div className="dashboard__task-owner">
+                                                <img src={photo} alt="" className="dashboard__task-avatar" />
+                                                <span style={{ fontSize: 12, color: C.textTer }}>{task.id}</span>
+                                            </div>
                                             <Badge label={task.tag} color={TAG_CLR[task.tag] || C.textSec} size="sm" />
                                         </div>
                                         {task.atRisk && (

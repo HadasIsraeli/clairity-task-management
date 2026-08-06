@@ -10,7 +10,7 @@ const NAV_TOP = [
 ];
 
 const NAV_MID = [
-    { icon: 'git-branch', label: 'Dependencies', to: null },
+    { icon: 'git-branch', label: 'Dependencies', to: '/dependencies' },
     { icon: 'alert-triangle', label: 'Risks & Delays', to: null },
     { icon: 'sparkles', label: 'AI Insights', to: null },
     { icon: 'chart-bar', label: 'Analytics', to: null },

@@ -1,7 +1,18 @@
 /** @type { import('@storybook/react-vite').Preview } */
 import '../src/index.css';
+import { MemoryRouter } from 'react-router-dom';
+import { SessionProvider } from '../src/features/SessionContext';
 
 const preview = {
+  decorators: [
+    (Story) => (
+      <MemoryRouter>
+        <SessionProvider>
+          <Story />
+        </SessionProvider>
+      </MemoryRouter>
+    ),
+  ],
   parameters: {
     controls: {
       matchers: {

@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Badge, C, F } from '../ui';
+import { C, F } from '../ui';
 import { Sidebar } from '../components/Sidebar';
 import { ChatPanel } from './ChatPanel';
 import { SPRINT, TASKS, ALL_TASKS } from '../data/tasks';
 import { Outlet, useLocation } from 'react-router-dom';
+import chatBubbleIcon from '../assets/figma/chat-bubble-icon.svg';
 
 export default function ClairityApp() {
     const [chatOpen, setChatOpen] = useState(false);
@@ -33,6 +34,9 @@ export default function ClairityApp() {
     } else if (path === '/settings') {
         leftLabel = 'Settings';
         rightLabel = '';
+    } else if (path === '/dependencies') {
+        leftLabel = 'Dependencies';
+        rightLabel = '';
     }
 
     return (
@@ -48,10 +52,6 @@ export default function ClairityApp() {
                         <i className="ti ti-chevron-right" style={{ fontSize: 11, color: C.textTer }} aria-hidden="true" />
                         <span className="page-header__trail">{rightLabel}</span>
                     </div>
-                    <div className="page-meta">
-                        <Badge label={`${SPRINT.daysLeft}d left`} tone="yellow" size="sm" />
-                        <Badge label={`${SPRINT.atRisk} at risk`} tone="red" size="sm" />
-                    </div>
                 </div>
 
                 <main className="app-content">
@@ -66,9 +66,8 @@ export default function ClairityApp() {
                     onClick={() => setChatOpen(true)}
                     title="Chat with Clairity"
                     className="floating-action"
-                    style={{ background: `linear-gradient(135deg,${C.indigo},${C.teal})`, boxShadow: `0 4px 18px ${C.indigo}55, 0 0 0 4px ${C.indigo}25` }}
                 >
-                    <i className="ti ti-sparkles" style={{ fontSize: 22, color: '#fff' }} aria-hidden="true" />
+                    <img src={chatBubbleIcon} alt="" className="floating-action__icon" />
                     <span
                         style={{
                             position: 'absolute',
