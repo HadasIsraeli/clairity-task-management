@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Badge, C, F } from '../ui';
+import { C, F } from '../ui';
 import { Sidebar } from '../components/Sidebar';
 import { ChatPanel } from './ChatPanel';
 import { SPRINT, TASKS, ALL_TASKS } from '../data/tasks';
@@ -51,10 +51,6 @@ export default function ClairityApp() {
                         <span style={{ fontSize: 13, fontWeight: 700, color: C.textPri }}>{leftLabel}</span>
                         <i className="ti ti-chevron-right" style={{ fontSize: 11, color: C.textTer }} aria-hidden="true" />
                         <span className="page-header__trail">{rightLabel}</span>
-                    </div>
-                    <div className="page-meta">
-                        <Badge label={`${SPRINT.daysLeft}d left`} tone="yellow" size="sm" />
-                        <Badge label={`${SPRINT.atRisk} at risk`} tone="red" size="sm" />
                     </div>
                 </div>
 

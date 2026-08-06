@@ -652,6 +652,20 @@ code {
   gap: 10px;
 }
 
+.dashboard__task-owner {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dashboard__task-avatar {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
 .dashboard__task-pill {
   min-width: 60px;
 }
@@ -748,6 +762,7 @@ code {
 }
 
 .delivery-widget {
+  position: relative;
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 12px;
@@ -814,6 +829,7 @@ code {
   padding: 4px 20px;
   width: calc(100% + 40px);
   border: none;
+  border-radius: 0 0 12px 12px;
   background: rgba(90, 79, 207, 0.09);
   font-size: 14px;
   font-weight: 500;
@@ -822,7 +838,7 @@ code {
 }
 
 .delivery-widget__reasoning-toggle--open {
-  border-bottom: 1px solid rgba(90, 79, 207, 0.16);
+  border-radius: 0;
 }
 
 .delivery-widget__reasoning-icon {
@@ -850,10 +866,20 @@ code {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  width: calc(100% + 40px);
-  margin: 0 -20px -16px;
+  position: absolute;
+  left: -1px;
+  right: -1px;
+  top: 100%;
+  z-index: 30;
+  max-height: 340px;
+  overflow-y: auto;
+  margin: 0;
   padding: 10px 20px 18px;
-  background: rgba(90, 79, 207, 0.09);
+  background: #0c1830;
+  border: 1px solid var(--border-mid);
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.5);
 }
 
 .delivery-widget__reasoning-row {
@@ -1087,28 +1113,6 @@ code {
   padding: 8px;
   width: 40px;
   height: 40px;
-}
-
-.badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2px 4px;
-  border-radius: 20px;
-  white-space: nowrap;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
-
-.badge--small {
-  padding: 2px 6px;
-  font-size: 10px;
-}
-
-.badge--pill {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .icon-box {
@@ -1815,20 +1819,19 @@ code {
 .badge {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
   border-radius: 20px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  padding: 2px 6px;
+  font-size: 10px;
+  font-weight: 700;
   white-space: nowrap;
 }
 
-.badge--small {
-  font-size: 10px;
-  padding: 2px 7px;
-}
-
+.badge--small,
 .badge--pill {
-  font-size: 11px;
-  padding: 3px 10px;
+  font-size: 10px;
+  padding: 2px 6px;
 }
 
 .button {

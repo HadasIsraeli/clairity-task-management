@@ -22,14 +22,18 @@ function monthYearLabel(dates) {
     return `${match[1]}, ${match[2]}`;
 }
 
-export function CalendarWidget() {
+export function CalendarWidget({ maxHeight }) {
     // Illustrative single-week strip anchored on the mock's highlighted day
     // (Wed). Day numbers are chrome, not derived from real calendar math.
     const days = [11, 12, 13, 14, 15];
     const todayIndex = 2;
 
     return (
-        <Card padding="lg" className="calendar-widget">
+        <Card
+            padding="lg"
+            className="calendar-widget"
+            style={maxHeight ? { maxHeight, overflowY: 'auto' } : undefined}
+        >
             <span className="title-md" style={{ color: C.textPri }}>{monthYearLabel(SPRINT.dates)}</span>
 
             <div className="calendar-widget__week">

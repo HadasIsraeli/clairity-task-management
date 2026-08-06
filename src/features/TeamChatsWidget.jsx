@@ -22,9 +22,13 @@ const CHATS = [
     { photo: profile3, presence: C.green, name: 'Daria Shmueli', preview: 'voice', time: '10:55', unread: 2 },
 ];
 
-export function TeamChatsWidget() {
+export function TeamChatsWidget({ maxHeight }) {
     return (
-        <Card padding="lg" className="team-chats-widget">
+        <Card
+            padding="lg"
+            className="team-chats-widget"
+            style={maxHeight ? { maxHeight, overflowY: 'auto' } : undefined}
+        >
             <span className="title-sm text-ter" style={{ letterSpacing: '0.06em', textTransform: 'uppercase' }}>Team</span>
             <div className="team-chats-widget__avatars">
                 {TEAM.map((member, i) => (

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { forwardRef, useEffect, useRef, useState } from 'react';
 import { Badge, C, ProgressBar } from '../ui';
 import { SPRINT } from '../data/tasks';
 import { callClaude, SYS_DELIVERY } from '../lib/claude';
@@ -53,7 +53,7 @@ const REASONING = {
 
 const REASONING_LABEL_COLOR = { entry: '#7163ff', 'in-progress': '#5a4fcf', complete: '#5a4fcf' };
 
-export function DeliveryWidget() {
+export const DeliveryWidget = forwardRef(function DeliveryWidget(_props, ref) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [displayScore, setDisplayScore] = useState(52);
@@ -119,7 +119,7 @@ export function DeliveryWidget() {
     const reasoningItems = REASONING[sessionPhase] || REASONING.entry;
 
     return (
-        <div className="delivery-widget" style={{ boxShadow: data ? `0 0 0 1px ${scoreColor}10, 0 4px 20px ${scoreColor}06` : 'none' }}>
+        <div ref={ref} className="delivery-widget" style={{ boxShadow: data ? `0 0 0 1px ${scoreColor}10, 0 4px 20px ${scoreColor}06` : 'none' }}>
             <div className="delivery-widget__header">
                 <span className="title-sm text-ter" style={{ letterSpacing: '0.07em', textTransform: 'uppercase' }}>
                     Sprint Delivery Confidence
@@ -189,4 +189,4 @@ export function DeliveryWidget() {
             )}
         </div>
     );
-}
+});

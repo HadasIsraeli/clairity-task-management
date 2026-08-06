@@ -1,10 +1,18 @@
+import { useEffect, useRef, useState } from 'react';
 import { ALL_TASKS, SPRINT, TAG_CLR, TASKS } from '../data/tasks';
-import { Avatar, Badge, Card, DonutChart, StatCard, Tooltip, C } from '../ui';
+import { Avatar, Badge, Card, DonutChart, Tooltip, C } from '../ui';
 import { DeliveryWidget } from './DeliveryWidget';
 import { CalendarWidget } from './CalendarWidget';
 import { TeamChatsWidget } from './TeamChatsWidget';
 import { useSession } from './SessionContext';
 import sparkleIcon from '../assets/figma/sparkle-icon.svg';
+import profile1 from '../assets/figma/profile-1.png';
+import profile2 from '../assets/figma/profile-2.png';
+import profile3 from '../assets/figma/profile-3.png';
+import profile4 from '../assets/figma/profile-4.png';
+import profile5 from '../assets/figma/profile-5.png';
+
+const PHOTOS = [profile1, profile2, profile3, profile4, profile5];
 
 export function Dashboard({ onOpen }) {
     const { briefingDismissed, briefingText, showSummary, summaryText, actionsLog } = useSession();
@@ -23,6 +31,19 @@ export function Dashboard({ onOpen }) {
     const donutPct = Math.round((SPRINT.completed / SPRINT.total) * 100);
     const briefTask = TASKS.inProgress;
 
+    // Calendar/Team cards should never grow taller than the Delivery
+    // Confidence card next to them — they scroll internally instead.
+    const deliveryRef = useRef(null);
+    const [deliveryHeight, setDeliveryHeight] = useState(null);
+
+    useEffect(() => {
+        const el = deliveryRef.current;
+        if (!el || typeof ResizeObserver === 'undefined') return;
+        const observer = new ResizeObserver(([entry]) => setDeliveryHeight(entry.contentRect.height));
+        observer.observe(el);
+        return () => observer.disconnect();
+    }, []);
+
     return (
         <div className="dashboard">
             <div className="dashboard__header">
@@ -32,13 +53,16 @@ export function Dashboard({ onOpen }) {
                         {SPRINT.dates} · {SPRINT.daysLeft} days remaining
                     </span>
                 </div>
-                <Badge label="Active sprint" tone="green" />
+                <div className="flex" style={{ gap: 8 }}>
+                    <Badge label="Active sprint" tone="green" />
+                    <Badge label={`${SPRINT.daysLeft}d left`} tone="yellow" />
+                </div>
             </div>
 
             <div className="dashboard__row dashboard__row--delivery">
-                <DeliveryWidget />
-                <CalendarWidget />
-                <TeamChatsWidget />
+                <DeliveryWidget ref={deliveryRef} />
+                <CalendarWidget maxHeight={deliveryHeight} />
+                <TeamChatsWidget maxHeight={deliveryHeight} />
             </div>
 
             <div className="dashboard__row dashboard__row--brief">
@@ -78,17 +102,6 @@ export function Dashboard({ onOpen }) {
                 </Card>
             )}
 
-            <div className="card-grid-4">
-                {[
-                    { label: 'Total tasks', val: SPRINT.total, color: C.textPri, icon: 'list-check' },
-                    { label: 'Completed', val: SPRINT.completed, color: C.green, icon: 'circle-check' },
-                    { label: 'In progress', val: SPRINT.inProgress, color: C.teal, icon: 'loader-2' },
-                    { label: 'At risk', val: SPRINT.atRisk, color: C.red, icon: 'alert-triangle' },
-                ].map((item) => (
-                    <StatCard key={item.label} label={item.label} value={item.val} color={item.color} icon={item.icon} />
-                ))}
-            </div>
-
             <div className="dashboard__board-header">
                 <span className="title-lg">Board</span>
                 <Badge label={`${SPRINT.atRisk} at risk`} tone="red" size="sm" />
@@ -125,6 +138,7 @@ export function Dashboard({ onOpen }) {
                                         ? 'dashboard__task-card--actioned'
                                         : 'dashboard__task-card--at-risk'
                                     : '';
+                                const photo = PHOTOS[ALL_TASKS.indexOf(task) % PHOTOS.length];
 
                                 return (
                                     <Card
@@ -148,7 +162,10 @@ export function Dashboard({ onOpen }) {
                                             )}
                                         </div>
                                         <div className="dashboard__task-meta">
-                                            <span style={{ fontSize: 12, color: C.textTer }}>{task.id}</span>
+                                            <div className="dashboard__task-owner">
+                                                <img src={photo} alt="" className="dashboard__task-avatar" />
+                                                <span style={{ fontSize: 12, color: C.textTer }}>{task.id}</span>
+                                            </div>
                                             <Badge label={task.tag} color={TAG_CLR[task.tag] || C.textSec} size="sm" />
                                         </div>
                                         {task.atRisk && (
