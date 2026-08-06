@@ -261,8 +261,241 @@ code {
 
 .dashboard__section {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 16px;
+}
+
+.dashboard__row {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 14px;
+  align-items: start;
+  margin-bottom: 14px;
+}
+
+.dashboard__row .delivery-widget {
+  margin-bottom: 0;
+}
+
+.dashboard__side-stack {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.dashboard__board-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+/* Calendar widget */
+.calendar-widget__chevron {
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-ter);
+  font-size: 11px;
+  cursor: default;
+}
+
+.calendar-widget__week {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+  margin-bottom: 14px;
+}
+
+.calendar-widget__day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.calendar-widget__day-label {
+  font-size: 11px;
+  color: var(--text-ter);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.calendar-widget__day-num {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-sec);
+}
+
+.calendar-widget__day-num--today {
+  background: var(--teal);
+  color: #071018;
+  font-weight: 700;
+}
+
+.calendar-widget__agenda {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+}
+
+.calendar-widget__agenda-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.calendar-widget__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.calendar-widget__agenda-text {
+  font-size: 13px;
+  color: var(--text-sec);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.calendar-widget__agenda-status {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+  flex-shrink: 0;
+}
+
+/* Team + chats widget */
+.team-chats-widget__avatars {
+  display: flex;
+  align-items: center;
+  margin: 10px 0 4px;
+}
+
+.team-chats-widget__list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.team-chats-widget__row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.team-chats-widget__row-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.team-chats-widget__row-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-pri);
+}
+
+.team-chats-widget__row-preview {
+  font-size: 12px;
+  color: var(--text-ter);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.team-chats-widget__row-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.team-chats-widget__row-time {
+  font-size: 11px;
+  color: var(--text-ter);
+}
+
+.team-chats-widget__unread {
+  min-width: 15px;
+  height: 15px;
+  padding: 0 4px;
+  border-radius: 8px;
+  background: var(--red);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Dependency graph */
+.dependency-graph {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.dependency-edge {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.dependency-edge__node {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+}
+
+.dependency-edge__node-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.dependency-edge__connector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0 6px 34px;
+  color: var(--text-ter);
+}
+
+.dependency-edge__line {
+  width: 1px;
+  flex: 1;
+  min-height: 18px;
+  background: var(--border-mid);
+}
+
+.dependency-edge__status {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px 16px 14px 34px;
 }
 
 .dashboard__task-column {

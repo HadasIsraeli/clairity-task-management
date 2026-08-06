@@ -1,18 +1,27 @@
 import { ALL_TASKS, SPRINT, TAG_CLR } from '../data/tasks';
-import { Badge, Card, StatCard, Tooltip, C } from '../ui';
+import { Badge, Card, DonutChart, StatCard, Tooltip, C } from '../ui';
 import { ProgressBar } from '../ui/ProgressBar';
 import { DeliveryWidget } from './DeliveryWidget';
+import { CalendarWidget } from './CalendarWidget';
+import { TeamChatsWidget } from './TeamChatsWidget';
 import { useSession } from './SessionContext';
 
 export function Dashboard({ onOpen }) {
     const { briefingDismissed, dismissBriefing, briefingText, showSummary, summaryText, actionsLog } = useSession();
-    const cols = ['To Do', 'In Progress', 'Done'];
+    const cols = ['Blocked', 'To Do', 'In Progress', 'Done'];
     const byStatus = {};
     cols.forEach((column) => {
         byStatus[column] = ALL_TASKS.filter((task) => task.status === column);
     });
     const pct = Math.round((SPRINT.completed / SPRINT.total) * 100);
-    const colDot = { Done: C.green, 'In Progress': C.teal, 'To Do': C.textTer };
+    const colDot = { Blocked: C.red, Done: C.green, 'In Progress': C.teal, 'To Do': C.textTer };
+    const donutSegments = [
+        { label: 'Blocked', value: byStatus.Blocked.length, color: C.red },
+        { label: 'To Do', value: byStatus['To Do'].length, color: C.textTer },
+        { label: 'Done', value: byStatus.Done.length, color: C.green },
+        { label: 'In Progress', value: byStatus['In Progress'].length, color: C.teal },
+    ];
+    const donutPct = Math.round((SPRINT.completed / SPRINT.total) * 100);
 
     return (
         <div className="dashboard">
@@ -34,30 +43,46 @@ export function Dashboard({ onOpen }) {
                 <ProgressBar pct={pct} color={C.green} height={4} />
             </div>
 
-            {!briefingDismissed && (
-                <Card className="card-padding dashboard__briefing-card" style={{ marginBottom: 14, borderColor: 'rgba(90, 79, 207, 0.18)' }}>
-                    <div className="dashboard__briefing-header">
-                        <span className="title-xs" style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase', color: C.indigo }}>
-                            CLAIRITY · Sprint Briefing
-                        </span>
-                        <button className="button button--ghost button--small" onClick={dismissBriefing} style={{ color: C.textTer, borderColor: 'transparent' }}>
-                            Dismiss
-                        </button>
-                    </div>
-                    <p className="dashboard__briefing-copy" style={{ margin: '10px 0 14px', color: C.textSec, lineHeight: 1.7 }}>{briefingText}</p>
-                    <div className="flex-between" style={{ gap: 10 }}>
-                        <button
-                            className="button button--primary"
-                            type="button"
-                            onClick={() => onOpen('inProgress')}
-                        >
-                            Review TM-112 →
-                        </button>
-                    </div>
-                </Card>
-            )}
+            <div className="dashboard__row">
+                <DeliveryWidget />
+                <div className="dashboard__side-stack">
+                    <CalendarWidget />
+                    <TeamChatsWidget />
+                </div>
+            </div>
 
-            <DeliveryWidget />
+            <div className="dashboard__row">
+                {!briefingDismissed ? (
+                    <Card className="card-padding dashboard__briefing-card" style={{ borderColor: 'rgba(90, 79, 207, 0.18)' }}>
+                        <div className="dashboard__briefing-header">
+                            <span className="title-xs" style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase', color: C.indigo }}>
+                                CLAIRITY · Sprint Briefing
+                            </span>
+                            <button className="button button--ghost button--small" onClick={dismissBriefing} style={{ color: C.textTer, borderColor: 'transparent' }}>
+                                Dismiss
+                            </button>
+                        </div>
+                        <p className="dashboard__briefing-copy" style={{ margin: '10px 0 14px', color: C.textSec, lineHeight: 1.7 }}>{briefingText}</p>
+                        <div className="flex-between" style={{ gap: 10 }}>
+                            <button
+                                className="button button--primary"
+                                type="button"
+                                onClick={() => onOpen('inProgress')}
+                            >
+                                Review TM-112 →
+                            </button>
+                        </div>
+                    </Card>
+                ) : (
+                    <div />
+                )}
+                <Card padding="lg">
+                    <span className="title-sm text-ter" style={{ letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 10, display: 'block' }}>
+                        Tasks done
+                    </span>
+                    <DonutChart segments={donutSegments} centerLabel={`${donutPct}%`} size={110} thickness={13} />
+                </Card>
+            </div>
 
             {showSummary && (
                 <Card className="card-padding dashboard__summary-banner" style={{ marginBottom: 14, borderColor: 'rgba(39, 201, 154, 0.18)' }}>
@@ -77,6 +102,11 @@ export function Dashboard({ onOpen }) {
                 ].map((item) => (
                     <StatCard key={item.label} label={item.label} value={item.val} color={item.color} icon={item.icon} />
                 ))}
+            </div>
+
+            <div className="dashboard__board-header">
+                <span className="title-lg">Board</span>
+                <Badge label={`${SPRINT.atRisk} at risk`} tone="red" size="sm" />
             </div>
 
             <div className="dashboard__section">

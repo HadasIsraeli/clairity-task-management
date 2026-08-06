@@ -33,6 +33,9 @@ export default function ClairityApp() {
     } else if (path === '/settings') {
         leftLabel = 'Settings';
         rightLabel = '';
+    } else if (path === '/dependencies') {
+        leftLabel = 'Dependencies';
+        rightLabel = '';
     }
 
     return (
