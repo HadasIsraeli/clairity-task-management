@@ -1,18 +1,25 @@
-import { Avatar, Card, C } from '../ui';
+import { Card, C } from '../ui';
+import profile1 from '../assets/figma/profile-1.png';
+import profile2 from '../assets/figma/profile-2.png';
+import profile3 from '../assets/figma/profile-3.png';
+import profile4 from '../assets/figma/profile-4.png';
+import profile5 from '../assets/figma/profile-5.png';
+import voiceIcon from '../assets/figma/voice-icon.svg';
 
 // Illustrative team roster + chat preview chrome — static, not wired to any
-// real chat backend. Mirrors the Figma "Team / Chats" widget.
+// real chat backend. Mirrors the Figma "Team / Chats" widget (node 265:7621),
+// including its real profile photos and per-person presence colors.
 const TEAM = [
-    { initials: 'YB', color: C.indigo, presence: C.green },
-    { initials: 'DS', color: C.teal, presence: C.red },
-    { initials: 'GP', color: C.green, presence: C.green },
-    { initials: 'ML', color: C.orange, presence: C.yellow },
-    { initials: 'RS', color: C.yellow, presence: C.yellow },
+    { photo: profile1, presence: C.red },
+    { photo: profile2, presence: C.green },
+    { photo: profile3, presence: C.green },
+    { photo: profile4, presence: C.yellow },
+    { photo: profile5, presence: C.yellow },
 ];
 
 const CHATS = [
-    { initials: 'GC', color: C.teal, name: 'Gali Cohen', preview: 'Awesome 🔥', time: '10:40', unread: 1 },
-    { initials: 'DS', color: C.indigo, name: 'Daria Shmueli', preview: 'voice', time: '10:55', unread: 2 },
+    { photo: profile2, presence: C.green, name: 'Gali Cohen', preview: 'Awesome 🔥', time: '10:40', unread: 1 },
+    { photo: profile3, presence: C.green, name: 'Daria Shmueli', preview: 'voice', time: '10:55', unread: 2 },
 ];
 
 export function TeamChatsWidget() {
@@ -26,7 +33,7 @@ export function TeamChatsWidget() {
                         className="team-chats-widget__avatar-wrap"
                         style={{ marginLeft: i === 0 ? 0 : -8, zIndex: TEAM.length - i }}
                     >
-                        <Avatar initials={member.initials} color={member.color} size={30} />
+                        <img src={member.photo} alt="" className="team-chats-widget__photo" />
                         <span className="team-chats-widget__presence" style={{ background: member.presence }} />
                     </div>
                 ))}
@@ -36,12 +43,15 @@ export function TeamChatsWidget() {
             <div className="team-chats-widget__list">
                 {CHATS.map((chat) => (
                     <div key={chat.name} className="team-chats-widget__row">
-                        <Avatar initials={chat.initials} color={chat.color} size={28} />
+                        <div className="team-chats-widget__avatar-wrap">
+                            <img src={chat.photo} alt="" className="team-chats-widget__photo team-chats-widget__photo--sm" />
+                            <span className="team-chats-widget__presence" style={{ background: chat.presence }} />
+                        </div>
                         <div className="team-chats-widget__row-body">
                             <span className="team-chats-widget__row-name">{chat.name}</span>
                             {chat.preview === 'voice' ? (
                                 <span className="team-chats-widget__row-preview">
-                                    <i className="ti ti-microphone" aria-hidden="true" /> Voice message
+                                    <img src={voiceIcon} alt="" className="team-chats-widget__voice-icon" /> Voice message
                                 </span>
                             ) : (
                                 <span className="team-chats-widget__row-preview">{chat.preview}</span>

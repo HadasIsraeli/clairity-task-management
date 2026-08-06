@@ -4,6 +4,7 @@ import { Sidebar } from '../components/Sidebar';
 import { ChatPanel } from './ChatPanel';
 import { SPRINT, TASKS, ALL_TASKS } from '../data/tasks';
 import { Outlet, useLocation } from 'react-router-dom';
+import chatBubbleIcon from '../assets/figma/chat-bubble-icon.svg';
 
 export default function ClairityApp() {
     const [chatOpen, setChatOpen] = useState(false);
@@ -69,9 +70,8 @@ export default function ClairityApp() {
                     onClick={() => setChatOpen(true)}
                     title="Chat with Clairity"
                     className="floating-action"
-                    style={{ background: `linear-gradient(135deg,${C.indigo},${C.teal})`, boxShadow: `0 4px 18px ${C.indigo}55, 0 0 0 4px ${C.indigo}25` }}
                 >
-                    <i className="ti ti-sparkles" style={{ fontSize: 22, color: '#fff' }} aria-hidden="true" />
+                    <img src={chatBubbleIcon} alt="" className="floating-action__icon" />
                     <span
                         style={{
                             position: 'absolute',

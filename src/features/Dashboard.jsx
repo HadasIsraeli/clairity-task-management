@@ -1,19 +1,18 @@
-import { ALL_TASKS, SPRINT, TAG_CLR } from '../data/tasks';
-import { Badge, Card, DonutChart, StatCard, Tooltip, C } from '../ui';
-import { ProgressBar } from '../ui/ProgressBar';
+import { ALL_TASKS, SPRINT, TAG_CLR, TASKS } from '../data/tasks';
+import { Avatar, Badge, Card, DonutChart, StatCard, Tooltip, C } from '../ui';
 import { DeliveryWidget } from './DeliveryWidget';
 import { CalendarWidget } from './CalendarWidget';
 import { TeamChatsWidget } from './TeamChatsWidget';
 import { useSession } from './SessionContext';
+import sparkleIcon from '../assets/figma/sparkle-icon.svg';
 
 export function Dashboard({ onOpen }) {
-    const { briefingDismissed, dismissBriefing, briefingText, showSummary, summaryText, actionsLog } = useSession();
+    const { briefingDismissed, briefingText, showSummary, summaryText, actionsLog } = useSession();
     const cols = ['Blocked', 'To Do', 'In Progress', 'Done'];
     const byStatus = {};
     cols.forEach((column) => {
         byStatus[column] = ALL_TASKS.filter((task) => task.status === column);
     });
-    const pct = Math.round((SPRINT.completed / SPRINT.total) * 100);
     const colDot = { Blocked: C.red, Done: C.green, 'In Progress': C.teal, 'To Do': C.textTer };
     const donutSegments = [
         { label: 'Blocked', value: byStatus.Blocked.length, color: C.red },
@@ -22,6 +21,7 @@ export function Dashboard({ onOpen }) {
         { label: 'In Progress', value: byStatus['In Progress'].length, color: C.teal },
     ];
     const donutPct = Math.round((SPRINT.completed / SPRINT.total) * 100);
+    const briefTask = TASKS.inProgress;
 
     return (
         <div className="dashboard">
@@ -35,52 +35,37 @@ export function Dashboard({ onOpen }) {
                 <Badge label="Active sprint" tone="green" />
             </div>
 
-            <div className="dashboard__progress">
-                <div className="flex-between" style={{ marginBottom: 7 }}>
-                    <span className="title-sm text-ter">Sprint progress</span>
-                    <span style={{ fontSize: 12, color: C.green, fontWeight: 700 }}>{pct}% complete</span>
-                </div>
-                <ProgressBar pct={pct} color={C.green} height={4} />
-            </div>
-
-            <div className="dashboard__row">
+            <div className="dashboard__row dashboard__row--delivery">
                 <DeliveryWidget />
-                <div className="dashboard__side-stack">
-                    <CalendarWidget />
-                    <TeamChatsWidget />
-                </div>
+                <CalendarWidget />
+                <TeamChatsWidget />
             </div>
 
-            <div className="dashboard__row">
+            <div className="dashboard__row dashboard__row--brief">
                 {!briefingDismissed ? (
-                    <Card className="card-padding dashboard__briefing-card" style={{ borderColor: 'rgba(90, 79, 207, 0.18)' }}>
+                    <Card padding="lg" className="dashboard__briefing-card">
                         <div className="dashboard__briefing-header">
-                            <span className="title-xs" style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase', color: C.indigo }}>
-                                CLAIRITY · Sprint Briefing
-                            </span>
-                            <button className="button button--ghost button--small" onClick={dismissBriefing} style={{ color: C.textTer, borderColor: 'transparent' }}>
-                                Dismiss
-                            </button>
+                            <img src={sparkleIcon} alt="" className="dashboard__briefing-icon" />
+                            <span className="dashboard__briefing-label">Sprint Brief</span>
                         </div>
-                        <p className="dashboard__briefing-copy" style={{ margin: '10px 0 14px', color: C.textSec, lineHeight: 1.7 }}>{briefingText}</p>
-                        <div className="flex-between" style={{ gap: 10 }}>
-                            <button
-                                className="button button--primary"
-                                type="button"
-                                onClick={() => onOpen('inProgress')}
-                            >
-                                Review TM-112 →
+                        <p className="dashboard__briefing-copy">{briefingText}</p>
+                        <div className="dashboard__briefing-task">
+                            <div className="dashboard__briefing-task-info">
+                                <Avatar initials={briefTask.assignee.initials} color={briefTask.assignee.color} size={22} />
+                                <span className="dashboard__briefing-task-title">{briefTask.title}</span>
+                                <span className="dashboard__briefing-task-id">{briefTask.id}</span>
+                                <Badge label={briefTask.tags[1] || briefTask.tags[0]} color={TAG_CLR[briefTask.tags[1] || briefTask.tags[0]] || C.textSec} size="sm" />
+                            </div>
+                            <button type="button" className="dashboard__briefing-cta" onClick={() => onOpen('inProgress')}>
+                                Review Options
                             </button>
                         </div>
                     </Card>
                 ) : (
                     <div />
                 )}
-                <Card padding="lg">
-                    <span className="title-sm text-ter" style={{ letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 10, display: 'block' }}>
-                        Tasks done
-                    </span>
-                    <DonutChart segments={donutSegments} centerLabel={`${donutPct}%`} size={110} thickness={13} />
+                <Card className="dashboard__donut-card">
+                    <DonutChart segments={donutSegments} centerLabel={`${donutPct}%`} size={132} thickness={16} />
                 </Card>
             </div>
 
