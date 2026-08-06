@@ -268,6 +268,41 @@ code {
   padding-bottom: 4px;
 }
 
+/* Transparent scrollbars for the app's custom-scrolling regions (board,
+   calendar/team cards, reasoning overlay) — thin and unobtrusive rather
+   than the browser's default opaque chrome. */
+.dashboard__section,
+.calendar-widget,
+.team-chats-widget,
+.delivery-widget__reasoning-body {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.14) transparent;
+}
+
+.dashboard__section::-webkit-scrollbar,
+.calendar-widget::-webkit-scrollbar,
+.team-chats-widget::-webkit-scrollbar,
+.delivery-widget__reasoning-body::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background: transparent;
+}
+
+.dashboard__section::-webkit-scrollbar-track,
+.calendar-widget::-webkit-scrollbar-track,
+.team-chats-widget::-webkit-scrollbar-track,
+.delivery-widget__reasoning-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dashboard__section::-webkit-scrollbar-thumb,
+.calendar-widget::-webkit-scrollbar-thumb,
+.team-chats-widget::-webkit-scrollbar-thumb,
+.delivery-widget__reasoning-body::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+}
+
 .dashboard__section > div {
   flex: 1 1 260px;
   min-width: 260px;
@@ -615,10 +650,10 @@ code {
   margin-bottom: 10px;
 }
 
-.dashboard__task-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 10px;
+.card.dashboard__task-card {
+  background: #0D1729;
+  border: 1px solid transparent;
+  border-radius: 6px;
   padding: 12px 14px;
   transition: background 0.15s, transform 0.15s;
 }
@@ -627,9 +662,9 @@ code {
   transform: translateY(-1px);
 }
 
-.dashboard__task-card--at-risk {
+.card.dashboard__task-card--at-risk {
   background: rgba(240, 80, 106, 0.05);
-  border-color: rgba(240, 80, 106, 0.24);
+  border-color: rgba(240, 80, 106, 0.157);
   cursor: pointer;
 }
 
