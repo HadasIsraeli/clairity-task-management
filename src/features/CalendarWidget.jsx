@@ -6,7 +6,8 @@ import { SPRINT } from '../data/tasks';
 const AGENDA = [
     { time: '9:00', title: 'Daily', status: 'ended', color: C.textTer },
     { time: '11:00', title: 'Architecture Sync', status: 'now', color: C.teal },
-    { time: '14:30', title: 'Leadership', status: 'later', color: C.textTer },
+    { time: '14:30', title: 'Leadership Sync', status: 'later', color: C.textTer },
+    { time: '15:00', title: 'Focus Time', status: 'later', color: C.textTer },
 ];
 
 const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];

@@ -290,6 +290,25 @@ code {
   margin-bottom: 14px;
 }
 
+.dashboard__filter-view {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 7px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--text-ter);
+  font-size: 12px;
+  cursor: default;
+}
+
+.dashboard__filter-view-count {
+  color: var(--text-sec);
+  font-weight: 600;
+}
+
 /* Calendar widget */
 .calendar-widget__chevron {
   width: 22px;
@@ -386,6 +405,27 @@ code {
   display: flex;
   align-items: center;
   margin: 10px 0 4px;
+}
+
+.team-chats-widget__avatar-wrap {
+  position: relative;
+  display: inline-flex;
+}
+
+.team-chats-widget__presence {
+  position: absolute;
+  right: -1px;
+  bottom: -1px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 2px solid var(--card);
+}
+
+.team-chats-widget__row-preview i {
+  font-size: 12px;
+  margin-right: 3px;
+  vertical-align: -1px;
 }
 
 .team-chats-widget__list {
@@ -689,6 +729,67 @@ code {
   display: flex;
   gap: 7px;
   align-items: flex-start;
+}
+
+.delivery-widget__caption {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--text-ter);
+  line-height: 1.5;
+}
+
+.delivery-widget__caption i {
+  font-size: 13px;
+  margin-top: 1px;
+  flex-shrink: 0;
+}
+
+.delivery-widget__reasoning-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 10px 0 0;
+  border: none;
+  border-top: 1px solid var(--border);
+  background: transparent;
+  color: var(--indigo);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+}
+
+.delivery-widget__reasoning-toggle span {
+  flex: 1;
+}
+
+.delivery-widget__reasoning-chevron {
+  transition: transform 0.15s ease;
+}
+
+.delivery-widget__reasoning-chevron--open {
+  transform: rotate(180deg);
+}
+
+.delivery-widget__reasoning-body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding-top: 10px;
+}
+
+.delivery-widget__reasoning-chip {
+  font-size: 12px;
+  color: var(--text-sec);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 4px 10px;
 }
 
 .card {

@@ -14,10 +14,18 @@ const CONFIDENCE_SEGMENTS = [
     { pct: 25, color: C.green },
 ];
 
+// Illustrative chrome (not wired to a real breakdown) — mirrors the factor
+// chips shown under the Figma mock's "Delivery Confidence Reasoning" disclosure.
+const CONFIDENCE_FACTORS = [
+    'Team capacity', 'Dependencies', 'Task health', 'Velocity',
+    'Scope stability', 'Blocker count', 'Review turnaround',
+];
+
 export function DeliveryWidget() {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [displayScore, setDisplayScore] = useState(52);
+    const [reasoningOpen, setReasoningOpen] = useState(false);
     const fetched = useRef(false);
     const { projectedScore, sessionPhase } = useSession();
     const animationFrame = useRef(null);
@@ -131,7 +139,32 @@ export function DeliveryWidget() {
                             <i className="ti ti-bulb" style={{ fontSize: 14, color: C.yellow }} aria-hidden="true" />
                             <p style={{ fontSize: 14, color: C.yellow, margin: 0, lineHeight: 1.65, opacity: 0.9 }}>{data.tip}</p>
                         </div>
+                        <div className="delivery-widget__caption">
+                            <i className="ti ti-map-pin" aria-hidden="true" />
+                            Calculated from {CONFIDENCE_FACTORS.length} operational factors across team capacity, dependencies, and task health
+                        </div>
                     </div>
+                </div>
+            )}
+
+            {data && (
+                <button
+                    type="button"
+                    className="delivery-widget__reasoning-toggle"
+                    onClick={() => setReasoningOpen((open) => !open)}
+                    aria-expanded={reasoningOpen}
+                >
+                    <i className="ti ti-sparkles" style={{ color: C.indigo }} aria-hidden="true" />
+                    <span>Delivery Confidence Reasoning</span>
+                    <i className={`ti ti-chevron-down delivery-widget__reasoning-chevron${reasoningOpen ? ' delivery-widget__reasoning-chevron--open' : ''}`} aria-hidden="true" />
+                </button>
+            )}
+
+            {data && reasoningOpen && (
+                <div className="delivery-widget__reasoning-body">
+                    {CONFIDENCE_FACTORS.map((factor) => (
+                        <span key={factor} className="delivery-widget__reasoning-chip">{factor}</span>
+                    ))}
                 </div>
             )}
         </div>

@@ -107,6 +107,11 @@ export function Dashboard({ onOpen }) {
             <div className="dashboard__board-header">
                 <span className="title-lg">Board</span>
                 <Badge label={`${SPRINT.atRisk} at risk`} tone="red" size="sm" />
+                <button type="button" className="dashboard__filter-view" disabled>
+                    <i className="ti ti-filter" aria-hidden="true" />
+                    Filter View
+                    <span className="dashboard__filter-view-count">4/7</span>
+                </button>
             </div>
 
             <div className="dashboard__section">
