@@ -1,0 +1,15 @@
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 12px;
+  height: 16px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.toggle:focus-visible { outline: 2px solid var(--clr-teal); outline-offset: 3px; border-radius: var(--radius-xs); }
+.icon { display: block; width: 12px; height: 16px; transition: transform 0.15s ease; }
+.open .icon { transform: scaleY(-1); }

@@ -43,6 +43,13 @@
   --clr-orange: #f07b3c;
   --clr-orange-dim: rgba(240, 123, 60, 0.1);
 
+  /* Soft text tones — Figma's dimmer base variables, used for text on the
+     Suggested Actions tags/buttons (Caribbean Green 12, Saffron 20, Picton Blue 18, Mandy 26) */
+  --clr-green-soft: #1fa17b;
+  --clr-yellow-soft: #c09a33;
+  --clr-teal-soft: #228db8;
+  --clr-red-soft: #c04055;
+
   /* Tags (Figma: <color> 9% fill, <color> 16% stroke) */
   --tag-fill-teal: rgba(43, 176, 230, 0.09);
   --tag-stroke-teal: rgba(43, 176, 230, 0.16);
@@ -58,7 +65,16 @@
   --tag-stroke-orange: rgba(240, 123, 60, 0.16);
   --tag-fill-neutral: rgba(150, 175, 204, 0.09);
   --tag-stroke-neutral: rgba(150, 175, 204, 0.16);
+  --tag-fill-yellow-strong: rgba(240, 192, 64, 0.11); /* Medium impact */
+  --tag-stroke-yellow-soft: rgba(240, 192, 64, 0.13);
   --tag-height: 17px;
+
+  /* Action buttons (Figma: task action buttons) */
+  --action-fill-teal: rgba(43, 176, 230, 0.11);
+  --action-stroke-teal: rgba(43, 176, 230, 0.16);
+  --action-fill-neutral: rgba(255, 255, 255, 0.09);
+  --action-stroke-neutral: rgba(255, 255, 255, 0.05);
+  --shadow-action: 0 4px 2px rgba(0, 0, 0, 0.05);
 
   /* Text (Figma: Text #f4f6f8, Gray/Lynch 31 — resolves #96afcc in the dashboard frames) */
   --clr-text-pri: #f4f6f8;
@@ -101,5 +117,6 @@
   --radius-lg: 10px;
   --radius-xl: 12px;
   --radius-tag: 20px;
+  --radius-action: 4px;
   --radius-pill: 999px;
 }

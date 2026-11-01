@@ -1,0 +1,18 @@
+.pager {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--clr-text-pri);
+  font: var(--font-body-3);
+}
+.arrow {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.arrow:disabled { opacity: 0.5; cursor: default; }
+.arrow:focus-visible { outline: 2px solid var(--clr-teal); outline-offset: 2px; border-radius: var(--radius-xs); }

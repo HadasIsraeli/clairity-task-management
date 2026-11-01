@@ -1,0 +1,26 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-sizing: border-box;
+  padding: 5px 13px;
+  border: 1px solid var(--btn-stroke);
+  border-radius: var(--radius-action);
+  background: var(--btn-fill);
+  color: var(--btn-text);
+  font: var(--font-action-btn);
+  letter-spacing: var(--letter-spacing-action-btn);
+  white-space: nowrap;
+  cursor: pointer;
+  filter: drop-shadow(var(--shadow-action));
+  transition: filter 0.15s ease, background 0.15s ease;
+}
+
+.btn:hover:not(:disabled) { filter: drop-shadow(var(--shadow-action)) brightness(1.15); }
+.btn:focus-visible { outline: 2px solid var(--clr-teal); outline-offset: 2px; }
+.btn:disabled { cursor: default; opacity: 0.5; }
+
+.primary { --btn-fill: var(--action-fill-teal); --btn-stroke: var(--action-stroke-teal); --btn-text: var(--clr-teal-soft); }
+.neutral { --btn-fill: var(--action-fill-neutral); --btn-stroke: var(--action-stroke-neutral); --btn-text: var(--clr-text-sec); }
+.fullWidth { width: 100%; }

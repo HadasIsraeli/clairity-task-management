@@ -1,0 +1,38 @@
+.avatar {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  border-radius: 50%;
+}
+.initials {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  font-weight: 700;
+  box-sizing: border-box;
+}
+.photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.presence {
+  position: absolute;
+  right: -1px;
+  bottom: -1px;
+  width: 28%;
+  min-width: 6px;
+  max-width: 10px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1.5px solid var(--clr-card);
+  background: var(--presence);
+}
+.green { --presence: var(--clr-green); }
+.red { --presence: var(--clr-red); }
+.yellow { --presence: var(--clr-yellow); }

@@ -1,0 +1,35 @@
+.tag {
+  --tag-fill: var(--tag-fill-neutral);
+  --tag-stroke: var(--tag-stroke-neutral);
+  --tag-text: var(--clr-text-sec);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: var(--tag-height);
+  padding: 0 6px;
+  border: 1px solid var(--tag-stroke);
+  border-radius: var(--radius-tag);
+  background: var(--tag-fill);
+  color: var(--tag-text);
+  font: var(--font-tag);
+  white-space: nowrap;
+}
+
+.teal { --tag-fill: var(--tag-fill-teal); --tag-stroke: var(--tag-stroke-teal); --tag-text: var(--clr-teal); }
+.indigo { --tag-fill: var(--tag-fill-indigo); --tag-stroke: var(--tag-stroke-indigo); --tag-text: var(--clr-indigo); }
+.green { --tag-fill: var(--tag-fill-green); --tag-stroke: var(--tag-stroke-green); --tag-text: var(--clr-green); }
+.red { --tag-fill: var(--tag-fill-red); --tag-stroke: var(--tag-stroke-red); --tag-text: var(--clr-red); }
+.yellow { --tag-fill: var(--tag-fill-yellow); --tag-stroke: var(--tag-stroke-yellow); --tag-text: var(--clr-yellow); }
+.orange { --tag-fill: var(--tag-fill-orange); --tag-stroke: var(--tag-stroke-orange); --tag-text: var(--clr-orange); }
+.neutral { --tag-text: var(--clr-text-sec); }
+
+/* Soft: dimmer text used on the Suggested Actions tags (Figma base variables). */
+.teal.soft { --tag-text: var(--clr-teal-soft); }
+.green.soft { --tag-text: var(--clr-green-soft); }
+.red.soft { --tag-text: var(--clr-red-soft); }
+.yellow.soft {
+  --tag-text: var(--clr-yellow-soft);
+  --tag-fill: var(--tag-fill-yellow-strong);
+  --tag-stroke: var(--tag-stroke-yellow-soft);
+}

@@ -1,6 +1,9 @@
 export { Button } from './Button';
 export { IconButton } from './IconButton';
 export { Badge } from './Badge';
+export { ActionButton } from './ActionButton';
+export { Pager } from './Pager';
+export { ChevronToggle } from './ChevronToggle';
 export { Card } from './Card';
 export { Avatar } from './Avatar';
 export { ProgressBar } from './ProgressBar';
