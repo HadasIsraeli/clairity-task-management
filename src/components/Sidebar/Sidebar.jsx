@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 const NAV_TOP = [
     { icon: 'layout-dashboard', label: 'Dashboard', to: '/' },
     { icon: 'calendar-stats', label: 'Sprint Overview', to: null },
-    { icon: 'checklist', label: 'Tasks', to: null },
+    { icon: 'checklist', label: 'Tasks', to: '/tasks' },
     { icon: 'users-group', label: 'Teams', to: null },
 ];
 

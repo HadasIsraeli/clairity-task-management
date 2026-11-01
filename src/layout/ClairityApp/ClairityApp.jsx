@@ -34,6 +34,9 @@ export default function ClairityApp() {
     } else if (path === '/settings') {
         leftLabel = 'Settings';
         rightLabel = '';
+    } else if (path === '/tasks') {
+        leftLabel = 'Tasks';
+        rightLabel = SPRINT.name;
     } else if (path === '/dependencies') {
         leftLabel = 'Dependencies';
         rightLabel = '';
