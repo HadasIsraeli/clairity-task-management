@@ -23,16 +23,21 @@
 }
 .presence {
   position: absolute;
-  right: -1px;
-  bottom: -1px;
-  width: 28%;
-  min-width: 6px;
-  max-width: 10px;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  border: 1.5px solid var(--clr-card);
+  right: 0;
+  bottom: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
   background: var(--presence);
+  box-shadow: 0 0 5px var(--presence-glow);
 }
-.green { --presence: var(--clr-green); }
-.red { --presence: var(--clr-red); }
-.yellow { --presence: var(--clr-yellow); }
+.dim::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.3);
+}
+.green { --presence: var(--clr-green-soft); --presence-glow: var(--clr-green); }
+.red { --presence: var(--clr-red-soft); --presence-glow: var(--clr-red); }
+.yellow { --presence: var(--clr-yellow-soft); --presence-glow: var(--clr-yellow); }

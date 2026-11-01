@@ -49,6 +49,13 @@
   --clr-yellow-soft: #c09a33;
   --clr-teal-soft: #228db8;
   --clr-red-soft: #c04055;
+  --clr-orange-soft: #c06230; /* Figma: Red/Crusta 24 */
+
+  /* Surfaces for panels and the AI brief (Figma: Black/Background 60%, Blue Violet 46 @ 60%) */
+  --clr-panel: rgba(13, 23, 41, 0.6);
+  --clr-brief-fill: rgba(113, 99, 255, 0.16);
+  --clr-brief-stroke: rgba(90, 79, 207, 0.6);
+  --shadow-panel: 0 4px 16px rgba(0, 0, 0, 0.2), 0 1px 3px rgba(0, 0, 0, 0.35);
 
   /* Tags (Figma: <color> 9% fill, <color> 16% stroke) */
   --tag-fill-teal: rgba(43, 176, 230, 0.09);

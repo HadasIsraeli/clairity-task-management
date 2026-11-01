@@ -1,0 +1,47 @@
+/* Figma dashboard container: 1242px frame, 40px side padding (22px comes from
+   the app shell, the rest from here), 18px gaps. Fluid below that. */
+.page {
+  width: 100%;
+  max-width: 1242px;
+  margin: 0 auto;
+  padding: 0 18px 28px;
+  box-sizing: border-box;
+}
+
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 48px;
+  margin-bottom: 18px;
+}
+.heading { display: flex; flex-direction: column; gap: 8px; }
+.title { margin: 0; color: var(--clr-text-pri); font: var(--font-headline); line-height: 24px; }
+.dates { margin: 0; color: var(--clr-text-sec); font: var(--font-text-1); }
+.tags { display: flex; align-items: center; gap: 12px; }
+
+.topRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 315px;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.mainRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px 200px;
+  gap: 18px;
+  align-items: start;
+}
+.side { display: flex; flex-direction: column; gap: 18px; }
+
+@media (max-width: 1180px) {
+  .topRow { grid-template-columns: minmax(0, 1fr); }
+  .mainRow { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .mainRow > :first-child { grid-column: 1 / -1; }
+}
+
+@media (max-width: 720px) {
+  .mainRow { grid-template-columns: minmax(0, 1fr); }
+}

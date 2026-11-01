@@ -3,7 +3,8 @@ import styles from './ActionButton.module.css';
 
 /**
  * Figma "task action buttons": the CTA at the bottom of a Suggested Action card.
- * `primary` (teal) is used on the recommended option, `neutral` on the others.
+ * `primary` (teal) is used on the recommended option, `neutral` on the others,
+ * `ghost` for "Review Options" and `success` for the resolved states ("Assigned to Gali").
  */
 export function ActionButton({ children, variant = 'primary', fullWidth = false, type = 'button', ...props }) {
     const classes = [styles.btn, styles[variant], fullWidth ? styles.fullWidth : ''].filter(Boolean).join(' ');
@@ -16,7 +17,7 @@ export function ActionButton({ children, variant = 'primary', fullWidth = false,
 
 ActionButton.propTypes = {
     children: PropTypes.node.isRequired,
-    variant: PropTypes.oneOf(['primary', 'neutral']),
+    variant: PropTypes.oneOf(['primary', 'neutral', 'success', 'ghost']),
     fullWidth: PropTypes.bool,
     type: PropTypes.string,
 };

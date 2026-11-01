@@ -1,36 +1,13 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { ACTION_POINTS, SCORE_STATES } from '../../data/fixtures/dashboard';
 
 const STORAGE_KEY = 'clairitySessionState';
-const BASE_SCORE = 52;
-const AT_RISK_TASKS = ['TM-112', 'TM-119'];
+const BASE_SCORE = SCORE_STATES.entry.score;
+const AT_RISK_TASKS = Object.keys(ACTION_POINTS);
 
 const defaultState = {
-    briefingDismissed: false,
-    summaryClosed: false,
     actionsLog: [],
     tasksReviewed: [],
-};
-
-const scoreImpactForAction = (actionLabel, taskId) => {
-    const label = actionLabel.toLowerCase();
-
-    if (label.includes('move to next sprint')) {
-        return taskId === 'TM-112' ? 22 : 12;
-    }
-    if (label.includes('sync') || label.includes('schedule')) {
-        return 17;
-    }
-    if (label.includes('reduce scope') || label.includes('scope')) {
-        return 14;
-    }
-    if (label.includes('request an update') || label.includes('update')) {
-        return 5;
-    }
-    if (label.includes('flag') || label.includes('review')) {
-        return 3;
-    }
-
-    return label.includes('high') ? 15 : label.includes('medium') ? 8 : 5;
 };
 
 const buildAcknowledgment = (actionLabel) => {
@@ -72,21 +49,25 @@ function saveState(state) {
 
 const SessionContext = createContext(null);
 
+/**
+ * Tracks what the manager has done this session. The delivery-confidence score
+ * is derived from the Figma fixtures (ACTION_POINTS), so it is always
+ * 52% -> 69% (TM-112 actioned) -> 72% (TM-119 actioned too), regardless of
+ * which option was chosen.
+ */
 export function SessionProvider({ children }) {
-    const [briefingDismissed, setBriefingDismissed] = useState(() => loadState().briefingDismissed ?? false);
-    const [summaryClosed, setSummaryClosed] = useState(() => loadState().summaryClosed ?? false);
     const [actionsLog, setActionsLog] = useState(() => loadState().actionsLog ?? []);
     const [tasksReviewed, setTasksReviewed] = useState(() => loadState().tasksReviewed ?? []);
 
     useEffect(() => {
-        saveState({ briefingDismissed, summaryClosed, actionsLog, tasksReviewed });
-    }, [briefingDismissed, summaryClosed, actionsLog, tasksReviewed]);
+        saveState({ actionsLog, tasksReviewed });
+    }, [actionsLog, tasksReviewed]);
 
     const logAction = useCallback((taskId, actionLabel) => {
         setActionsLog((prev) => {
             if (prev.some((item) => item.taskId === taskId)) return prev;
-            const scoreImpact = scoreImpactForAction(actionLabel, taskId);
-            return [...prev, { taskId, actionLabel, scoreImpact, acknowledged: buildAcknowledgment(actionLabel, taskId), date: new Date().toISOString() }];
+            const scoreImpact = ACTION_POINTS[taskId] ?? 0;
+            return [...prev, { taskId, actionLabel, scoreImpact, acknowledged: buildAcknowledgment(actionLabel), date: new Date().toISOString() }];
         });
     }, []);
 
@@ -94,11 +75,8 @@ export function SessionProvider({ children }) {
         setTasksReviewed((prev) => (prev.includes(taskId) ? prev : [...prev, taskId]));
     }, []);
 
-    const dismissBriefing = useCallback(() => setBriefingDismissed(true), []);
-    const closeSummary = useCallback(() => setSummaryClosed(true), []);
-
     const totalImpact = useMemo(
-        () => actionsLog.reduce((sum, item) => sum + item.scoreImpact, 0),
+        () => actionsLog.reduce((sum, item) => sum + (ACTION_POINTS[item.taskId] ?? 0), 0),
         [actionsLog],
     );
 
@@ -110,40 +88,8 @@ export function SessionProvider({ children }) {
 
     const sessionPhase = actionsLog.length === 0 ? 'entry' : completedActions ? 'complete' : 'in-progress';
 
-    const briefingText = useMemo(() => {
-        if (sessionPhase === 'complete') {
-            return 'Both flagged items have been addressed. Sprint 24 is tracking better — I’ll continue watching and alert you if anything shifts before the sprint ends.';
-        }
-        if (sessionPhase === 'in-progress') {
-            return 'Good progress. TM-112 has been addressed. TM-119 is now your primary concern — the dependency situation there needs your input.';
-        }
-        return 'Sprint 24 has 7 days left and I’m tracking it at 52% delivery confidence. Two situations need your attention — TM-112 is the more pressing. I’d start there.';
-    }, [sessionPhase]);
-
-    const summaryText = useMemo(() => {
-        if (sessionPhase !== 'complete') return '';
-        const finished = actionsLog.map((item) => `· ${item.taskId} — ${item.actionLabel}`).join('\n');
-        return `You’ve reviewed and addressed ${actionsLog.length} flagged item${actionsLog.length === 1 ? '' : 's'} in Sprint 24. Delivery confidence improved from 52 → ${projectedScore} this session. I’m projecting ${Math.max(projectedScore + 4, projectedScore)}–${Math.min(projectedScore + 8, 100)}/100 by end of sprint if both actions are followed through. I’ll continue monitoring and will alert you if anything changes.\n\nActions logged this session:\n${finished}`;
-    }, [actionsLog, projectedScore, sessionPhase]);
-
     return (
-        <SessionContext.Provider
-            value={{
-                briefingDismissed,
-                dismissBriefing,
-                summaryClosed,
-                closeSummary,
-                actionsLog,
-                tasksReviewed,
-                markReviewed,
-                logAction,
-                projectedScore,
-                sessionPhase,
-                briefingText,
-                summaryText,
-                showSummary: sessionPhase === 'complete' && !summaryClosed,
-            }}
-        >
+        <SessionContext.Provider value={{ actionsLog, tasksReviewed, markReviewed, logAction, projectedScore, sessionPhase }}>
             {children}
         </SessionContext.Provider>
     );

@@ -23,4 +23,6 @@
 
 .primary { --btn-fill: var(--action-fill-teal); --btn-stroke: var(--action-stroke-teal); --btn-text: var(--clr-teal-soft); }
 .neutral { --btn-fill: var(--action-fill-neutral); --btn-stroke: var(--action-stroke-neutral); --btn-text: var(--clr-text-sec); }
+.success { --btn-fill: var(--tag-fill-green); --btn-stroke: var(--tag-stroke-green); --btn-text: var(--clr-green-soft); }
+.ghost { --btn-fill: var(--action-fill-neutral); --btn-stroke: var(--action-stroke-neutral); --btn-text: var(--clr-text-pri); }
 .fullWidth { width: 100%; }

@@ -1,0 +1,49 @@
+.card { display: flex; flex-direction: column; gap: 16px; }
+.title { margin: 0; color: var(--clr-text-sec); font: var(--font-title-3); white-space: nowrap; }
+
+.timer { display: flex; flex-direction: column; gap: 12px; }
+
+.ring {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  margin: 10px auto;
+}
+.ring svg { position: absolute; inset: 0; }
+.track { stroke: var(--clr-white-5); }
+.progress { stroke: var(--clr-text-sec); opacity: 0.6; }
+.time {
+  position: relative;
+  margin: 0;
+  color: var(--clr-text-sec);
+  font: var(--font-title-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.controls { display: flex; align-items: center; justify-content: center; gap: 16px; }
+.round {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 16px;
+  cursor: pointer;
+}
+.round:focus-visible { outline: 2px solid var(--clr-teal); outline-offset: 2px; }
+.play { background: var(--tag-stroke-green); }
+.restart { background: var(--clr-white-9); }
+.icon { display: block; width: 16px; height: 16px; }
+.pause {
+  display: block;
+  width: 10px;
+  height: 12px;
+  border-left: 3px solid var(--clr-green);
+  border-right: 3px solid var(--clr-green);
+  box-sizing: border-box;
+}

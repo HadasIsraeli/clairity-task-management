@@ -28,8 +28,13 @@
 .teal.soft { --tag-text: var(--clr-teal-soft); }
 .green.soft { --tag-text: var(--clr-green-soft); }
 .red.soft { --tag-text: var(--clr-red-soft); }
+.orange.soft { --tag-text: var(--clr-orange-soft); }
 .yellow.soft {
   --tag-text: var(--clr-yellow-soft);
   --tag-fill: var(--tag-fill-yellow-strong);
   --tag-stroke: var(--tag-stroke-yellow-soft);
 }
+
+/* Status tags (Steady but risky, On track): semibold with 0.2px tracking. */
+.status { font-weight: 600; letter-spacing: 0.2px; }
+.yellow.soft.status { --tag-fill: var(--tag-fill-yellow); --tag-stroke: var(--tag-stroke-yellow); }

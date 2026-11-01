@@ -1,12 +1,26 @@
+import PropTypes from 'prop-types';
 import { C } from '../../styles/tokens';
 
 /**
- * Hand-rolled SVG donut/ring chart — consistent with the rest of the design
- * system (no charting library). Renders `segments` ({ label, value, color })
- * as proportional arcs around the ring, a bold center label, and an optional
- * legend with per-segment counts.
+ * Hand-rolled SVG donut/ring chart (no charting library). Renders `segments`
+ * ({ label, value, color }) as proportional arcs starting at 12 o'clock and
+ * running clockwise, with a centered label. Legends are composed by the caller
+ * (see StatusDonut) so each screen can match its own Figma legend.
+ *
+ * `segmentGap` (px along the ring) and `opacity` match the Figma "Doughnut Chart"
+ * asset (0.7 opacity, small gaps between segments).
  */
-export function DonutChart({ segments = [], centerLabel, size = 120, thickness = 14, legend = true }) {
+export function DonutChart({
+    segments = [],
+    centerLabel,
+    centerColor = C.textPri,
+    centerFontSize,
+    size = 120,
+    thickness = 14,
+    segmentGap = 0,
+    opacity = 1,
+    ariaLabel = 'Chart',
+}) {
     const total = segments.reduce((sum, seg) => sum + seg.value, 0) || 1;
     const radius = (size - thickness) / 2;
     const circumference = 2 * Math.PI * radius;
@@ -14,23 +28,15 @@ export function DonutChart({ segments = [], centerLabel, size = 120, thickness =
     const arcs = segments.reduce((acc, seg) => {
         const prevRunning = acc.length ? acc[acc.length - 1].running : 0;
         const portion = seg.value / total;
-        const dash = portion * circumference;
-        const offset = -prevRunning * circumference;
+        const dash = Math.max(portion * circumference - segmentGap, 0.01);
+        const offset = -(prevRunning * circumference + segmentGap / 2);
         acc.push({ ...seg, dash, offset, running: prevRunning + portion });
         return acc;
     }, []);
 
     return (
-        <div className="flex-center" style={{ gap: 20 }}>
-            <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} role="img" aria-label="Task status breakdown">
-                <circle
-                    cx={size / 2}
-                    cy={size / 2}
-                    r={radius}
-                    fill="none"
-                    stroke="rgba(255,255,255,0.05)"
-                    strokeWidth={thickness}
-                />
+        <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} role="img" aria-label={ariaLabel}>
+            <g opacity={opacity}>
                 {arcs.map((seg) => (
                     <circle
                         key={seg.label}
@@ -43,43 +49,36 @@ export function DonutChart({ segments = [], centerLabel, size = 120, thickness =
                         strokeDasharray={`${seg.dash} ${circumference - seg.dash}`}
                         strokeDashoffset={seg.offset}
                         transform={`rotate(-90 ${size / 2} ${size / 2})`}
-                        strokeLinecap="butt"
                     />
                 ))}
+            </g>
+            {centerLabel != null && (
                 <text
                     x="50%"
                     y="50%"
                     textAnchor="middle"
                     dominantBaseline="central"
-                    fontSize={size * 0.18}
+                    fontSize={centerFontSize ?? size * 0.18}
                     fontWeight={700}
-                    fill={C.textPri}
+                    fill={centerColor}
                 >
                     {centerLabel}
                 </text>
-            </svg>
-
-            {legend && (
-                <div className="flex-column stack-gap-8">
-                    {segments.map((seg) => (
-                        <div key={seg.label} className="flex-center" style={{ gap: 8 }}>
-                            <span
-                                style={{
-                                    width: 8,
-                                    height: 8,
-                                    borderRadius: '50%',
-                                    background: seg.color,
-                                    flexShrink: 0,
-                                }}
-                            />
-                            <span style={{ fontSize: 13, color: C.textSec, flex: 1 }}>{seg.label}</span>
-                            <span style={{ fontSize: 12, fontWeight: 700, color: C.textPri, background: 'rgba(255,255,255,0.05)', borderRadius: 10, padding: '1px 8px' }}>
-                                {seg.value}
-                            </span>
-                        </div>
-                    ))}
-                </div>
             )}
-        </div>
+        </svg>
     );
 }
+
+DonutChart.propTypes = {
+    segments: PropTypes.arrayOf(
+        PropTypes.shape({ label: PropTypes.string.isRequired, value: PropTypes.number.isRequired, color: PropTypes.string.isRequired }),
+    ),
+    centerLabel: PropTypes.node,
+    centerColor: PropTypes.string,
+    centerFontSize: PropTypes.number,
+    size: PropTypes.number,
+    thickness: PropTypes.number,
+    segmentGap: PropTypes.number,
+    opacity: PropTypes.number,
+    ariaLabel: PropTypes.string,
+};

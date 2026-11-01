@@ -1,0 +1,126 @@
+.card {
+  display: flex;
+  flex-direction: column;
+}
+
+.top {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 18px 22px;
+}
+
+.title {
+  margin: 0;
+  color: var(--clr-text-sec);
+  font: var(--font-title-3);
+}
+
+.summaryRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  align-self: stretch;
+  flex-shrink: 0;
+}
+
+.scoreValue {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 2px;
+  height: 38px;
+  margin: 0;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.scoreNumber { font-size: 38px; line-height: 38px; }
+.scorePercent { margin-top: 22px; font-size: 16px; line-height: 16px; }
+.yellow { color: var(--clr-yellow-soft); }
+.green { color: var(--clr-green-soft); }
+.red { color: var(--clr-red-soft); }
+.orange { color: var(--clr-orange-soft); }
+
+.summary {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.bar {
+  display: grid;
+  grid-template-columns: repeat(100, minmax(0, 1fr));
+  column-gap: 1px;
+  height: 4px;
+  border-radius: 4px;
+  background: var(--clr-white-6);
+  opacity: 0.8;
+}
+.segment { border-radius: 4px; grid-row: 1; }
+.bar_red { background: var(--clr-red-soft); }
+.bar_orange { background: var(--clr-orange-soft); }
+.bar_yellow { background: var(--clr-yellow-soft); }
+.bar_green { background: var(--clr-green-soft); }
+
+.text {
+  margin: 0;
+  color: var(--clr-text-sec);
+  font: var(--font-body-2);
+}
+
+.caption {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  margin: 0;
+  color: var(--clr-text-sec);
+  font: var(--font-body-2);
+}
+.lamp { flex-shrink: 0; width: 14px; height: 15px; margin-top: 4px; }
+
+.reasons {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0 21px 18px;
+  list-style: none;
+}
+
+.reason {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 4px 8px;
+}
+/* Figma packs the 7 rows into a fixed 408px list (rows overlap by 2.667px). */
+.reason + .reason { margin-top: -2.667px; }
+
+.impact {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  width: 35px;
+  height: 24px;
+  font: var(--font-text-2);
+}
+
+.reasonText {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  font: var(--font-body-2);
+}
+.reasonTitle { margin: 0; color: var(--clr-text-pri); }
+.reasonDetail { margin: 0; color: var(--clr-text-sec); }

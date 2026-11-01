@@ -14,3 +14,5 @@ export const Primary = { args: { children: 'Assign to Gali', variant: 'primary',
 export const Neutral = { args: { children: 'Reduce scope', variant: 'neutral', fullWidth: true } };
 export const Disabled = { args: { children: 'Assign to Gali', disabled: true, fullWidth: true } };
 export const Inline = { args: { children: 'Schedule a sync', fullWidth: false } };
+export const Success = { args: { children: 'Assigned to Gali', variant: 'success' }, parameters: design('1005-40982') };
+export const Ghost = { args: { children: 'Review Options', variant: 'ghost' }, parameters: design('972-35173') };

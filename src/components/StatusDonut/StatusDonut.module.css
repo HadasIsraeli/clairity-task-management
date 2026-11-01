@@ -1,0 +1,40 @@
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 36px;
+  padding: 18px 24px;
+  border-radius: var(--radius-xl);
+}
+
+.chart { display: flex; flex: 1 1 0; align-items: center; justify-content: center; min-width: 0; }
+
+.legend {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item { display: flex; align-items: center; gap: 8px; }
+.dotWrap { display: inline-flex; padding: 2px; opacity: 0.6; }
+.dot { width: 6px; height: 6px; border-radius: 3px; }
+.label {
+  min-width: 66px;
+  color: var(--clr-text-sec);
+  font: var(--font-body-1);
+  white-space: nowrap;
+}
+.count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 4px;
+  border-radius: 10px;
+  background: var(--clr-white-5);
+  color: var(--clr-text-sec);
+  font: var(--font-tag);
+}

@@ -10,8 +10,8 @@ const TONES = ['teal', 'indigo', 'green', 'red', 'yellow', 'orange', 'neutral'];
  * Figma uses on Suggested Actions tags (High / Medium impact, Recommended).
  * `size` is accepted for backwards compatibility and has no effect.
  */
-export function Badge({ label, tone, color, soft = false, children }) {
-    const classes = [styles.tag, tone ? styles[tone] : '', soft ? styles.soft : ''].filter(Boolean).join(' ');
+export function Badge({ label, tone, color, soft = false, status = false, children }) {
+    const classes = [styles.tag, tone ? styles[tone] : '', soft ? styles.soft : '', status ? styles.status : ''].filter(Boolean).join(' ');
     const dataStyle = !tone && color ? { '--tag-fill': `${color}18`, '--tag-stroke': `${color}28`, '--tag-text': color } : undefined;
     return (
         <span className={classes} style={dataStyle}>
@@ -25,5 +25,6 @@ Badge.propTypes = {
     tone: PropTypes.oneOf(TONES),
     color: PropTypes.string,
     soft: PropTypes.bool,
+    status: PropTypes.bool,
     children: PropTypes.node,
 };

@@ -5,6 +5,7 @@ export { ActionButton } from './ActionButton';
 export { Pager } from './Pager';
 export { ChevronToggle } from './ChevronToggle';
 export { Card } from './Card';
+export { Panel } from './Panel';
 export { Avatar } from './Avatar';
 export { ProgressBar } from './ProgressBar';
 export { Tooltip } from './Tooltip';

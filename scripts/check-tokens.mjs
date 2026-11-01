@@ -12,7 +12,7 @@ const map = {
     teal: 'clr-teal', tealDim: 'clr-teal-dim', indigo: 'clr-indigo', indigoDim: 'clr-indigo-dim',
     violet: 'clr-violet', green: 'clr-green', greenDim: 'clr-green-dim', red: 'clr-red',
     redDim: 'clr-red-dim', yellow: 'clr-yellow', yellowDim: 'clr-yellow-dim', orange: 'clr-orange',
-    orangeDim: 'clr-orange-dim', greenSoft: 'clr-green-soft', yellowSoft: 'clr-yellow-soft', tealSoft: 'clr-teal-soft', redSoft: 'clr-red-soft', textPri: 'clr-text-pri', textSec: 'clr-text-sec', textTer: 'clr-text-ter',
+    orangeDim: 'clr-orange-dim', greenSoft: 'clr-green-soft', yellowSoft: 'clr-yellow-soft', tealSoft: 'clr-teal-soft', redSoft: 'clr-red-soft', orangeSoft: 'clr-orange-soft', textPri: 'clr-text-pri', textSec: 'clr-text-sec', textTer: 'clr-text-ter',
 };
 
 let bad = 0;

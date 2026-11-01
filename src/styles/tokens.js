@@ -27,6 +27,7 @@ export const C = {
     yellowSoft: '#c09a33',
     tealSoft: '#228db8',
     redSoft: '#c04055',
+    orangeSoft: '#c06230',
     textPri: '#f4f6f8',
     textSec: '#96afcc',
     textTer: '#587090',

@@ -1,6 +1,6 @@
 import { C } from '../../styles/tokens';
 
-export const SPRINT = { name: "Sprint 24", dates: "May 6–20, 2026", daysLeft: 7, total: 15, completed: 4, inProgress: 4, atRisk: 2 };
+export const SPRINT = { name: "Sprint 24", dates: "May 6-20, 2026", daysLeft: 7, total: 14, completed: 4, inProgress: 4, atRisk: 2 };
 
 export const TASKS = {
     inProgress: {
@@ -49,7 +49,7 @@ export const ALL_TASKS = [
     { id: "TM-119", title: "Deploy Notification Service", assignee: "Daria Shmueli", status: "Blocked", tag: "DevOps", atRisk: true, riskType: "blocked" },
     { id: "TM-120", title: "Load testing & optimization", assignee: "Barak Cohen", status: "To Do", tag: "Infra" },
     { id: "TM-121", title: "Security audit", assignee: "Dana Levy", status: "To Do", tag: "Security" },
-    { id: "TM-107", title: "Configure API Gateway Routing Rules", assignee: "Rotem Levi", status: "To Do", tag: "Platform" },
+    { id: "TM-107", title: "Configure API Gateway Routing Rules", assignee: "Rotem Levi", status: "To Do", tag: "Platform", external: true },
 ];
 
 // Cross-task dependency edges, used by the Dependencies graph view.

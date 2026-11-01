@@ -6,9 +6,9 @@ import styles from './Avatar.module.css';
  * `initials` + `color` as the fallback. `presence` adds the status dot
  * (green = available, yellow = busy / in a meeting, red = unavailable).
  */
-export function Avatar({ src, initials, color, size = 28, presence, alt = '' }) {
+export function Avatar({ src, initials, color, size = 28, presence, dimmed = false, alt = '' }) {
     return (
-        <span className={styles.avatar} style={{ width: size, height: size }}>
+        <span className={[styles.avatar, dimmed ? styles.dim : ''].filter(Boolean).join(' ')} style={{ width: size, height: size }}>
             {src ? (
                 <img src={src} alt={alt} className={styles.photo} />
             ) : (
@@ -30,5 +30,6 @@ Avatar.propTypes = {
     color: PropTypes.string,
     size: PropTypes.number,
     presence: PropTypes.oneOf(['green', 'yellow', 'red']),
+    dimmed: PropTypes.bool,
     alt: PropTypes.string,
 };
