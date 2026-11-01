@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { TaskView } from '../features/TaskView';
-import { TASKS, ALL_TASKS } from '../data/tasks';
+import { TaskView } from '../sections/TaskView';
+import { TASKS, ALL_TASKS } from '../data/fixtures/tasks';
 
 export default function TaskPage() {
   const { id } = useParams();

@@ -8,8 +8,8 @@
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
   color-scheme: dark;
-  color: #E4EDFF;
-  background: #070D19;
+  color: var(--clr-text-pri);
+  background: var(--clr-bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -42,9 +42,9 @@
 
 body {
   margin: 0;
-  font-family: 'Afacad', 'Inter', system-ui, sans-serif;
-  background-color: #070D19;
-  color: #E4EDFF;
+  font-family: var(--font-sans);
+  background-color: var(--clr-bg);
+  color: var(--clr-text-pri);
 }
 
 #root {

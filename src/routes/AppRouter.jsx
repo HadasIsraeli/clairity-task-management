@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import ClairityApp from '../features/ClairityApp';
+import ClairityApp from '../layout/ClairityApp';
 import DashboardPage from '../pages/DashboardPage';
 import TaskPage from '../pages/TaskPage';
 import SettingsPage from '../pages/SettingsPage';

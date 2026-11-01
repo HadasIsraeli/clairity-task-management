@@ -1,7 +1,7 @@
 /** @type { import('@storybook/react-vite').Preview } */
 import '../src/index.css';
 import { MemoryRouter } from 'react-router-dom';
-import { SessionProvider } from '../src/features/SessionContext';
+import { SessionProvider } from '../src/state/SessionContext';
 
 const preview = {
   decorators: [
