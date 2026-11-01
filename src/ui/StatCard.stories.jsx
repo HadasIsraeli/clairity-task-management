@@ -1,5 +1,5 @@
 import { StatCard } from './StatCard';
-import { C } from './tokens';
+import { C } from '../styles/tokens';
 
 export default {
     title: 'UI Kit/StatCard',

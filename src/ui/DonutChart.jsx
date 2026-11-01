@@ -1,4 +1,4 @@
-import { C } from './tokens';
+import { C } from '../styles/tokens';
 
 /**
  * Hand-rolled SVG donut/ring chart — consistent with the rest of the design

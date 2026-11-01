@@ -1,5 +1,5 @@
 import { DonutChart } from './DonutChart';
-import { C } from './tokens';
+import { C } from '../styles/tokens';
 
 export default {
     title: 'UI Kit/DonutChart',

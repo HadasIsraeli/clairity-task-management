@@ -1,0 +1,105 @@
+/*
+ * Clairity design tokens — the only place raw visual values live.
+ * Source: Figma "Task-Management-AI" (cLshpuj2nu9IbalJF3hM0G) variables.
+ *
+ * Color semantics are fixed: violet = AI, teal = primary action/trust,
+ * red = risk, green = resolution, yellow/orange = caution.
+ *
+ * Figma's *base* variables (Mandy 26 #C04055, Saffron 20 #C09A33,
+ * Picton Blue 18 #228DB8, Caribbean Green 12 #1FA17B, Crusta 24 #C06230)
+ * are dimmer than the "-1" variants the frames actually render
+ * (#F0506A, #F0C040, #2BB0E6, #27C99A, #F07B3C), so the "-1" set is used.
+ */
+:root {
+  /* Surfaces */
+  --clr-bg: #070d19;
+  --clr-bg-nav: #0a1120;
+  --clr-card: #0d1729; /* Figma: Black/Background 60% */
+  --clr-card-alt: #132038;
+
+  /* Overlays (Figma: White 2/3/5/6/9%) */
+  --clr-white-2: rgba(255, 255, 255, 0.02);
+  --clr-white-3: rgba(255, 255, 255, 0.03);
+  --clr-white-5: rgba(255, 255, 255, 0.05);
+  --clr-white-6: rgba(255, 255, 255, 0.06);
+  --clr-white-9: rgba(255, 255, 255, 0.09);
+
+  /* Borders */
+  --clr-border: rgba(255, 255, 255, 0.08);
+  --clr-border-mid: rgba(255, 255, 255, 0.12);
+
+  /* Brand / semantic colors */
+  --clr-teal: #2bb0e6;
+  --clr-teal-dim: rgba(43, 176, 230, 0.1);
+  --clr-indigo: #5a4fcf;
+  --clr-indigo-dim: rgba(90, 79, 207, 0.12);
+  --clr-violet: #7163ff; /* AI accent used for "Sprint Brief" / "Suggested Actions" labels */
+  --clr-green: #27c99a;
+  --clr-green-dim: rgba(39, 201, 154, 0.1);
+  --clr-red: #f0506a;
+  --clr-red-dim: rgba(240, 80, 106, 0.1);
+  --clr-yellow: #f0c040;
+  --clr-yellow-dim: rgba(240, 192, 64, 0.1);
+  --clr-orange: #f07b3c;
+  --clr-orange-dim: rgba(240, 123, 60, 0.1);
+
+  /* Tags (Figma: <color> 9% fill, <color> 16% stroke) */
+  --tag-fill-teal: rgba(43, 176, 230, 0.09);
+  --tag-stroke-teal: rgba(43, 176, 230, 0.16);
+  --tag-fill-indigo: rgba(90, 79, 207, 0.09);
+  --tag-stroke-indigo: rgba(90, 79, 207, 0.16);
+  --tag-fill-green: rgba(39, 201, 154, 0.09);
+  --tag-stroke-green: rgba(39, 201, 154, 0.16);
+  --tag-fill-red: rgba(240, 80, 106, 0.09);
+  --tag-stroke-red: rgba(240, 80, 106, 0.16);
+  --tag-fill-yellow: rgba(240, 192, 64, 0.09);
+  --tag-stroke-yellow: rgba(240, 192, 64, 0.16);
+  --tag-fill-orange: rgba(240, 123, 60, 0.09);
+  --tag-stroke-orange: rgba(240, 123, 60, 0.16);
+  --tag-fill-neutral: rgba(150, 175, 204, 0.09);
+  --tag-stroke-neutral: rgba(150, 175, 204, 0.16);
+  --tag-height: 17px;
+
+  /* Text (Figma: Text #f4f6f8, Gray/Lynch 31 — resolves #96afcc in the dashboard frames) */
+  --clr-text-pri: #f4f6f8;
+  --clr-text-sec: #96afcc;
+  --clr-text-ter: #587090;
+
+  /* Shadows (Figma: Drop Shadow Card — 0 4px 4px #0000000D) */
+  --shadow-card: 0 4px 4px rgba(0, 0, 0, 0.05);
+
+  /* Typography — Figma text styles (Afacad; Inter is a fallback only) */
+  --font-sans: 'Afacad', 'Inter', system-ui, sans-serif;
+  --font-headline: 700 32px/1.2 var(--font-sans);
+  --font-title-1: 700 24px/1.2 var(--font-sans);
+  --font-title-2: 600 20px/1.4 var(--font-sans);
+  --font-title-3: 600 18px/1.35 var(--font-sans);
+  --font-body-1: 700 16px/1.5 var(--font-sans);
+  --font-body-2: 400 16px/1.5 var(--font-sans);
+  --font-body-3: 500 14px/1.5 var(--font-sans);
+  --font-text-1: 400 14px/1.15 var(--font-sans);
+  --font-text-2: 500 14px/1.15 var(--font-sans);
+  --font-tag: 700 10px/1 var(--font-sans);
+  --font-action-btn: 700 12px/1.5 var(--font-sans);
+  --letter-spacing-action-btn: 0.24px;
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 6px;
+  --space-3: 8px;
+  --space-4: 10px;
+  --space-5: 12px;
+  --space-6: 14px;
+  --space-7: 16px;
+  --space-8: 18px;
+  --space-9: 22px;
+
+  /* Radii */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 12px;
+  --radius-tag: 20px;
+  --radius-pill: 999px;
+}

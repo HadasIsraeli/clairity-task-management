@@ -1,4 +1,4 @@
-import { C } from './tokens';
+import { C } from '../styles/tokens';
 
 /**
  * Shared button. Replaces CtaButton and the various hand-rolled

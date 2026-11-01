@@ -1,5 +1,5 @@
 import { Badge } from './Badge';
-import { C } from './tokens';
+import { C } from '../styles/tokens';
 
 export default {
     title: 'UI Kit/Badge',

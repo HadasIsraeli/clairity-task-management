@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Afacad:wght@400;500;600;700&display=swap');
-@import './ui/tokens.css';
+@import './styles/tokens.css';
 
 :root {
   --sans: 'Afacad', 'Inter', system-ui, sans-serif;
@@ -104,28 +104,30 @@ code {
   background: var(--code-bg);
 }
 
+/* Legacy short-name aliases — everything resolves to src/styles/tokens.css.
+   Removed as components move to CSS Modules (Phases 2-3). */
 :root {
-  --card: #0F1D36;
-  --card-alt: #132038;
-  --bg-nav: #0A1120;
-  --border: rgba(255, 255, 255, 0.08);
-  --border-mid: rgba(255, 255, 255, 0.12);
-  --shadow: 0 1px 3px rgba(0, 0, 0, 0.35), 0 4px 16px rgba(0, 0, 0, 0.2);
-  --teal: #2BB0E6;
-  --teal-dim: rgba(43, 176, 230, 0.10);
-  --indigo: #5A4FCF;
-  --indigo-dim: rgba(90, 79, 207, 0.12);
-  --green: #27C99A;
-  --green-dim: rgba(39, 201, 154, 0.10);
-  --red: #F0506A;
-  --red-dim: rgba(240, 80, 106, 0.10);
-  --yellow: #F0C040;
-  --yellow-dim: rgba(240, 192, 64, 0.10);
-  --orange: #F07B3C;
-  --orange-dim: rgba(240, 123, 60, 0.10);
-  --text-pri: #E4EDFF;
-  --text-sec: #96AFCC;
-  --text-ter: #587090;
+  --card: var(--clr-card);
+  --card-alt: var(--clr-card-alt);
+  --bg-nav: var(--clr-bg-nav);
+  --border: var(--clr-border);
+  --border-mid: var(--clr-border-mid);
+  --shadow: var(--shadow-card);
+  --teal: var(--clr-teal);
+  --teal-dim: var(--clr-teal-dim);
+  --indigo: var(--clr-indigo);
+  --indigo-dim: var(--clr-indigo-dim);
+  --green: var(--clr-green);
+  --green-dim: var(--clr-green-dim);
+  --red: var(--clr-red);
+  --red-dim: var(--clr-red-dim);
+  --yellow: var(--clr-yellow);
+  --yellow-dim: var(--clr-yellow-dim);
+  --orange: var(--clr-orange);
+  --orange-dim: var(--clr-orange-dim);
+  --text-pri: var(--clr-text-pri);
+  --text-sec: var(--clr-text-sec);
+  --text-ter: var(--clr-text-ter);
 }
 
 /* UI Kit utilities and shared component styles */
@@ -503,7 +505,7 @@ code {
   height: 32px;
   border-radius: 50%;
   object-fit: cover;
-  border: 1.5px solid #0d1729;
+  border: 1.5px solid var(--clr-card);
 }
 
 .team-chats-widget__photo--sm {
@@ -651,7 +653,7 @@ code {
 }
 
 .card.dashboard__task-card {
-  background: #0D1729;
+  background: var(--clr-card);
   border: 1px solid transparent;
   border-radius: 6px;
   padding: 12px 14px;
@@ -663,13 +665,13 @@ code {
 }
 
 .card.dashboard__task-card--at-risk {
-  background: #0D1729;
+  background: var(--clr-card);
   border-color: rgba(240, 80, 106, 0.157);
   cursor: pointer;
 }
 
 .dashboard__task-card--at-risk:hover {
-  background: #0D1729;
+  background: var(--clr-card);
 }
 
 .dashboard__task-title {
@@ -1855,13 +1857,12 @@ code {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 17px;
+  height: var(--tag-height);
   box-sizing: border-box;
   border: 1px solid transparent;
-  border-radius: 20px;
+  border-radius: var(--radius-tag);
   padding: 0 6px;
-  font-size: 10px;
-  font-weight: 700;
+  font: var(--font-tag);
   white-space: nowrap;
 }
 

@@ -8,4 +8,4 @@ export { Tooltip } from './Tooltip';
 export { StatCard } from './StatCard';
 export { Tabs } from './Tabs';
 export { DonutChart } from './DonutChart';
-export { C, F, RADIUS, SPACE, TONE } from './tokens';
+export { C, F, RADIUS, SPACE, TONE } from '../styles/tokens';

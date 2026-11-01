@@ -1,4 +1,4 @@
-import { C } from './tokens';
+import { C } from '../styles/tokens';
 
 /**
  * Base surface used throughout the app. `padding` maps to the existing

@@ -1,5 +1,5 @@
 import { Card } from './Card';
-import { C } from './tokens';
+import { C } from '../styles/tokens';
 
 export default {
     title: 'UI Kit/Card',

@@ -1,6 +1,6 @@
 import { fn } from 'storybook/test';
 import { Button } from './Button';
-import { C } from './tokens';
+import { C } from '../styles/tokens';
 
 export default {
     title: 'UI Kit/Button',
